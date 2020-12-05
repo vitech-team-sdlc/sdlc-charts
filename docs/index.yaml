@@ -3,26 +3,26 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 9.5.0
-    created: "2020-12-05T13:49:31.078601+02:00"
+    created: "2020-12-05T15:54:33.328487+02:00"
     dependencies:
     - name: keycloak
       repository: https://codecentric.github.io/helm-charts
       version: 9.5.0
     description: fix chart for jx
-    digest: 65c01516aa69cff3bf5a5acee36621e14df86277a326170dff151127fed7817d
+    digest: 3822e64de35234c5f6281d76010ba975bb2e69048b7b2f1742329f26d88f7ffe
     name: keycloak
     type: application
     urls:
-    - https://vitech-team.github.io/sdlc-charts/keycloak-0.1.0.tgz
+    - https://github.com/vitech-team/sdlc-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
     version: 0.1.0
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2020-12-05T13:49:31.078872+02:00"
-    digest: b4d83e86328f81d86f09d6118769e48d6a1b91a8421093d511c73f86d88452b3
+    created: "2020-12-05T15:54:33.609949+02:00"
+    digest: 9913f817609c2021b1db75f611c63d541c3696c9a67f3b8f726934523b6fe3f2
     name: secret
     type: application
     urls:
-    - https://vitech-team.github.io/sdlc-charts/secret-0.1.0.tgz
+    - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
-generated: "2020-12-05T13:49:31.072924+02:00"
+generated: "2020-12-05T15:54:33.003583+02:00"
