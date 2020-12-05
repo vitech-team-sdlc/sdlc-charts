@@ -1,5 +1,8 @@
 # sdlc-charts
 
+### Repo
+https://vitech-team.github.io/sdlc-charts/
+
 ### Install
 Chart Releaser: https://github.com/helm/chart-releaser
 
