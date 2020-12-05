@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  secret:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2020-12-05T13:12:43.77862+02:00"
+    digest: 0a4bccecd7862bb3808155c469ad1163f8f61028366ad1aee9732feed244275c
+    name: secret
+    type: application
+    urls:
+    - https://vitech-team.github.io/sdlc-charts/secret-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-12-05T13:12:43.778162+02:00"
