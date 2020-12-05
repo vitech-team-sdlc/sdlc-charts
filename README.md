@@ -1,10 +1,12 @@
 # sdlc-charts
 
-For indexing use:
+### Install
+Chart Releaser: https://github.com/helm/chart-releaser
+
+### Release
  
 ```shell
-helm repo index docs --url https://vitech-team.github.io/sdlc-charts/
-git add -i
-git commit -av
-git push origin main
+CHART_NAME=""
+cr package charts/${CHART_NAME}
+cr index --config="./config.yaml" -i index.yaml --pr  --pages-branch=main
 ```
