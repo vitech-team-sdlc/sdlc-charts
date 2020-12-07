@@ -1,0 +1,11 @@
+nginx:
+  ingress:
+    enabled: false
+
+selenium:
+  hub:
+    ingress:
+      enabled: false
+  chrome:
+    enabled: true
+    replicas: 1
