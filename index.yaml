@@ -3,7 +3,7 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 9.5.0
-    created: "2020-12-05T16:02:40.386999+02:00"
+    created: "2020-12-07T10:52:56.472364+02:00"
     dependencies:
     - name: keycloak
       repository: https://codecentric.github.io/helm-charts
@@ -15,14 +15,42 @@ entries:
     urls:
     - https://github.com/vitech-team/sdlc-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
     version: 0.1.0
+  largetests:
+  - apiVersion: v2
+    created: "2020-12-07T10:52:56.71557+02:00"
+    dependencies:
+    - name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.1
+    - name: selenium
+      repository: https://charts.helm.sh/stable
+      version: 1.2.0
+    description: A Helm chart for  any kind reports which need to be stored for example Large Test repots
+    digest: 64abaf7043c10f0b9ea467837f4b6d6ad5313ff190c9f1f83bb9005696793683
+    name: largetests
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/largetests-0.1.0/largetests-0.1.0.tgz
+    version: 0.1.0
+  monitoring:
+  - apiVersion: v2
+    appVersion: 0.0.0
+    created: "2020-12-07T10:52:56.937037+02:00"
+    description: additional monitoring staff for kubeprometheus
+    digest: 2c6193765b1f4b4cebd00baa26ae52277780c077c65fcef13329e2afc780d2a7
+    name: monitoring
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.1.0/monitoring-0.1.0.tgz
+    version: 0.1.0
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2020-12-05T16:02:40.594379+02:00"
+    created: "2020-12-07T10:52:57.165206+02:00"
     digest: 9913f817609c2021b1db75f611c63d541c3696c9a67f3b8f726934523b6fe3f2
     name: secret
     type: application
     urls:
     - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
-generated: "2020-12-05T16:02:40.078507+02:00"
+generated: "2020-12-07T10:52:56.134157+02:00"
