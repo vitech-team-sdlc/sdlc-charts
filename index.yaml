@@ -3,7 +3,7 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 9.5.0
-    created: "2020-12-07T10:52:56.472364+02:00"
+    created: "2021-01-04T16:03:10.217166+02:00"
     dependencies:
     - name: keycloak
       repository: https://codecentric.github.io/helm-charts
@@ -17,7 +17,7 @@ entries:
     version: 0.1.0
   largetests:
   - apiVersion: v2
-    created: "2020-12-07T10:52:56.71557+02:00"
+    created: "2021-01-04T16:03:10.425999+02:00"
     dependencies:
     - name: nginx
       repository: https://charts.bitnami.com/bitnami
@@ -35,7 +35,17 @@ entries:
   monitoring:
   - apiVersion: v2
     appVersion: 0.0.0
-    created: "2020-12-07T10:52:56.937037+02:00"
+    created: "2021-01-04T16:03:11.009158+02:00"
+    description: additional monitoring staff for kubeprometheus
+    digest: 08fbe66d110db63bf0a43ba813c01665a74f2e8d781bb170eb0d735e7be33394
+    name: monitoring
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.2.0/monitoring-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.0.0
+    created: "2021-01-04T16:03:10.783144+02:00"
     description: additional monitoring staff for kubeprometheus
     digest: 2c6193765b1f4b4cebd00baa26ae52277780c077c65fcef13329e2afc780d2a7
     name: monitoring
@@ -46,11 +56,11 @@ entries:
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2020-12-07T10:52:57.165206+02:00"
+    created: "2021-01-04T16:03:11.189979+02:00"
     digest: 9913f817609c2021b1db75f611c63d541c3696c9a67f3b8f726934523b6fe3f2
     name: secret
     type: application
     urls:
     - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
-generated: "2020-12-07T10:52:56.134157+02:00"
+generated: "2021-01-04T16:03:09.874002+02:00"
