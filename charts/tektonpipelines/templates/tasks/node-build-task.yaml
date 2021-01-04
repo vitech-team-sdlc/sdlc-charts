@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: node-build
+  labels:
+    app.kubernetes.io/version: "0.2"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: "node"
+    tekton.dev/displayName: "node-build"
+spec:
+  description: >-
+    build
+  workspaces:
+    - name: source
+      description: sources dir
+  params:
+    - name: IMAGE
+      type: string
+      description: node image
+      default: "gcr.io/jenkinsxio/builder-nodejs12x:latest"
+    - name: ARTIFACT_REGISTRY_URL
+      default: "http://nexus/repository/npmjs-registry/"
+    - name: ARTIFACT_REGISTRY_USER
+      default: "admin"
+    - name: ARTIFACT_REGISTRY_PASSWORD_SECRET
+      default: "nexus"
+  stepTemplate:
+    name: ""
+    env:
+      - name: CI
+        value: "true"
+  steps:
+    - name: prepare-npmrc
+      image: $(params.IMAGE)
+      workingDir: $(workspaces.source.path)
+      script: |
+        PASS="$(echo -n "${ARTIFACT_REGISTRY_USER}:${ARTIFACT_REGISTRY_PASSWORD}" | base64)"
+        echo "registry=${ARTIFACT_REGISTRY_URL}" >> .npmrc
+        echo "_auth=${PASS}" >> .npmrc
+      env:
+        - name: ARTIFACT_REGISTRY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "$(params.ARTIFACT_REGISTRY_PASSWORD_SECRET)"
+              key: password
+        - name: ARTIFACT_REGISTRY_USER
+          value: "$(params.ARTIFACT_REGISTRY_USER)"
+        - name: ARTIFACT_REGISTRY_URL
+          value: "$(params.ARTIFACT_REGISTRY_URL)"
+    - name: install
+      image: $(params.IMAGE)
+      imagePullPolicy: IfNotPresent
+      workingDir: $(workspaces.source.path)
+      command:
+        - npm
+      args:
+        - install
+    - name: test
+      image: $(params.IMAGE)
+      imagePullPolicy: IfNotPresent
+      workingDir: $(workspaces.source.path)
+      command:
+        - npm
+      args:
+        - test
+    - name: build-prod
+      image: $(params.IMAGE)
+      imagePullPolicy: IfNotPresent
+      workingDir: $(workspaces.source.path)
+      command:
+        - npm
+      args:
+        - run
+        - build-prod
