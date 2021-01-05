@@ -13,6 +13,8 @@ spec:
       default: "large-test"
     - name: PULL_NUMBER
       description: PR id
+    - name: JX_CLI
+      default: "{{ .Values.jx.images.cli }}"
   stepTemplate:
     name: ""
     volumeMounts:
@@ -22,7 +24,7 @@ spec:
   results: [ ]
   steps:
     - name: get-pr-info
-      image: 'gcr.io/jenkinsxio/jx-cli:3.1.43'
+      image: $(params.JX_CLI)
       workingDir: /workspace/source
       script: |
         #!/usr/bin/env bash
@@ -69,7 +71,7 @@ spec:
         fi
     - name: comment
       workingDir: /workspace/source
-      image: 'gcr.io/jenkinsxio/jx-cli:3.1.43'
+      image: $(params.JX_CLI)
       script: |
         if grep -w "production" .promotion_label; then
           if grep -w "True" .test_status; then

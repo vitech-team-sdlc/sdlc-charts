@@ -60,7 +60,7 @@ spec:
       description: "image of sonar-scanner-cli"
       default: "sonarsource/sonar-scanner-cli:4.5"
     - name: JX_CLI
-      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
+      default: "{{ .Values.jx.images.cli }}"
   results:
     - name: url
       description: Sonar analys URL

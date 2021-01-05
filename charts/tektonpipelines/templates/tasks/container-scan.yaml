@@ -33,7 +33,7 @@ spec:
       description: "Name of docker-socket volume to mount: /var/run/docker.sock"
       default: "docker-socket"
     - name: JX_BOOT
-      default: "gcr.io/jenkinsxio/jx-boot:3.1.43"
+      default: "{{ .Values.jx.images.boot }}"
   stepTemplate:
     name: ""
     volumeMounts:

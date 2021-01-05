@@ -59,7 +59,7 @@ spec:
       name: REPO_OWNER
       type: string
     - name: JX_PREVIEW
-      default: "gcr.io/jenkinsxio/jx-preview:0.0.136"
+      default: "{{ .Values.jx.images.preview }}"
   stepTemplate:
     env:
       - name: BUILD_ID

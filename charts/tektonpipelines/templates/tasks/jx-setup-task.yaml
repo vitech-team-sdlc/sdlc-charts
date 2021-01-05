@@ -70,9 +70,9 @@ spec:
       type: string
       default: "jx"
     - name: JX_CLI
-      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
+      default: "{{ .Values.jx.images.cli }}"
     - name: JX_BOOT
-      default: "gcr.io/jenkinsxio/jx-boot:3.1.43"
+      default: "{{ .Values.jx.images.boot }}"
   results:
     - name: image
       description: Name of the image which should be builded

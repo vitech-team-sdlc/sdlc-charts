@@ -65,9 +65,9 @@ spec:
       default: "#spectrum-ua-internal"
       description: slack chanel to notify about release
     - name: JX_CLI
-      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
+      default: "{{ .Values.jx.images.cli }}"
     - name: JX_CHANGELOG
-      default: "gcr.io/jenkinsxio/jx-changelog:0.0.8"
+      default: "{{ .Values.jx.images.changelog }}"
   stepTemplate:
     env:
       - name: BUILD_ID

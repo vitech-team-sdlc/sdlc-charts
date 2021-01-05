@@ -49,7 +49,7 @@ spec:
       default: "true"
       description: "if task need to failed in case of found vulnerabilities"
     - name: JX_CLI
-      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
+      default: "{{ .Values.jx.images.cli }}"
   stepTemplate:
     env:
       - name: SNYK_TOKEN

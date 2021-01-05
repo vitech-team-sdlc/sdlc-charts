@@ -32,7 +32,7 @@ spec:
       description: image who scanning commits
       default: "aevea/commitsar:0.15.0"
     - name: JX_BOOT
-      default: "gcr.io/jenkinsxio/jx-boot:3.1.43"
+      default: "{{ .Values.jx.images.boot }}"
   results:
     - name: report
       description: report of commits
