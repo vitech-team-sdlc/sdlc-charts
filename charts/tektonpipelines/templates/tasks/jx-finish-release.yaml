@@ -64,6 +64,10 @@ spec:
     - name: SLACK_CHANEL
       default: "#spectrum-ua-internal"
       description: slack chanel to notify about release
+    - name: JX_CLI
+      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
+    - name: JX_CHANGELOG
+      default: "gcr.io/jenkinsxio/jx-changelog:0.0.8"
   stepTemplate:
     env:
       - name: BUILD_ID
@@ -94,7 +98,7 @@ spec:
         value: $(params.REPO_URL)
   steps:
     - name: promote-changelog
-      image: gcr.io/jenkinsxio/jx-changelog:0.0.8
+      image: $(params.JX_CHANGELOG)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
@@ -115,13 +119,13 @@ spec:
         git push origin v$VERSION
         jx changelog create --version v${VERSION}
     - name: promote-helm-release
-      image: gcr.io/jenkinsxio/jx-cli:3.1.43
+      image: $(params.JX_CLI)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
         jx gitops helm release
     - name: promote-jx-promote
-      image: gcr.io/jenkinsxio/jx-cli:3.1.43
+      image: $(params.JX_CLI)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env bash
@@ -129,8 +133,7 @@ spec:
         jx promote -b --all-auto --timeout 1h --no-poll &> promote.log
         cat promote.log
     - name: slack-notify
-      image: gcr.io/jenkinsxio/jx-cli:3.1.43
-      imagePullPolicy: IfNotPresent
+      image: $(params.JX_CLI)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env bash

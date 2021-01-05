@@ -31,6 +31,8 @@ spec:
       type: string
       description: image who scanning commits
       default: "aevea/commitsar:0.15.0"
+    - name: JX_BOOT
+      default: "gcr.io/jenkinsxio/jx-boot:3.1.43"
   results:
     - name: report
       description: report of commits
@@ -57,7 +59,7 @@ spec:
         export COLUMNS=$(cat $(results.report.path) | grep "|" | awk -F"|" '{printf "%s | %s | %s", $2, $3, $4;} {print ""}' | grep -v -e '^[[:space:]]*$' | tail -n +2 | grep '[[:alnum:]]')
         echo -e "$(params.MARDOWN_HEADER) \n HASH | ERROR | MSG \n --|--|-- \n $COLUMNS" > $(results.mardown_report.path)
     - name: conventional-commits-comment
-      image: gcr.io/jenkinsxio/jx-boot:3.1.43
+      image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then
@@ -68,7 +70,7 @@ spec:
             fi
         fi
     - name: conventional-commits-final
-      image: gcr.io/jenkinsxio/jx-boot:3.1.43
+      image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
       script: |-
         if "$(params.FAIL)" ; then

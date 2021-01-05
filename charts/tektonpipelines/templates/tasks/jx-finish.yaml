@@ -58,6 +58,8 @@ spec:
     - description: git repository owner (user or organisation)
       name: REPO_OWNER
       type: string
+    - name: JX_PREVIEW
+      default: "gcr.io/jenkinsxio/jx-preview:0.0.136"
   stepTemplate:
     env:
       - name: BUILD_ID
@@ -88,7 +90,7 @@ spec:
         value: $(params.REPO_URL)
   steps:
     - name: promote-jx-preview
-      image: gcr.io/jenkinsxio/jx-preview:0.0.136
+      image: $(params.JX_PREVIEW)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
@@ -100,7 +102,7 @@ spec:
         fi
 
     - name: check-if-preview-created
-      image: gcr.io/jenkinsxio/jx-preview:0.0.136
+      image: $(params.JX_PREVIEW)
       workingDir: $(workspaces.source.path)
       script: |
         if ! "$(cat prev.created)"; then

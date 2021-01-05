@@ -32,6 +32,8 @@ spec:
       type: string
       description: "Name of docker-socket volume to mount: /var/run/docker.sock"
       default: "docker-socket"
+    - name: JX_BOOT
+      default: "gcr.io/jenkinsxio/jx-boot:3.1.43"
   stepTemplate:
     name: ""
     volumeMounts:
@@ -88,7 +90,7 @@ spec:
         echo "Continue..."
 
     - name: publish
-      image: gcr.io/jenkinsxio/jx-boot:3.1.43
+      image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then

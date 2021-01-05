@@ -59,6 +59,8 @@ spec:
     - name: SONAR_IMAGE
       description: "image of sonar-scanner-cli"
       default: "sonarsource/sonar-scanner-cli:4.5"
+    - name: JX_CLI
+      default: "gcr.io/jenkinsxio/jx-cli:3.1.43"
   results:
     - name: url
       description: Sonar analys URL
@@ -150,7 +152,7 @@ spec:
               name: $(params.SONAR_SECRET)
               key: sonar-login
     - name: verify-sonar-status
-      image: gcr.io/jenkinsxio/jx-cli:3.1.43
+      image: $(params.JX_CLI)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env bash
