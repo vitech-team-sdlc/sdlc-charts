@@ -3,7 +3,7 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 9.5.0
-    created: "2021-01-05T14:47:07.22122+02:00"
+    created: "2021-01-06T11:53:42.731188+02:00"
     dependencies:
     - name: keycloak
       repository: https://codecentric.github.io/helm-charts
@@ -17,7 +17,7 @@ entries:
     version: 0.1.0
   largetests:
   - apiVersion: v2
-    created: "2021-01-05T14:47:07.434032+02:00"
+    created: "2021-01-06T11:53:42.944004+02:00"
     dependencies:
     - name: nginx
       repository: https://charts.bitnami.com/bitnami
@@ -35,7 +35,7 @@ entries:
   monitoring:
   - apiVersion: v2
     appVersion: 0.0.0
-    created: "2021-01-05T14:47:07.843424+02:00"
+    created: "2021-01-06T11:53:43.389049+02:00"
     description: additional monitoring staff for kubeprometheus
     digest: 08fbe66d110db63bf0a43ba813c01665a74f2e8d781bb170eb0d735e7be33394
     name: monitoring
@@ -45,7 +45,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.0.0
-    created: "2021-01-05T14:47:07.642185+02:00"
+    created: "2021-01-06T11:53:43.132617+02:00"
     description: additional monitoring staff for kubeprometheus
     digest: 2c6193765b1f4b4cebd00baa26ae52277780c077c65fcef13329e2afc780d2a7
     name: monitoring
@@ -56,7 +56,7 @@ entries:
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2021-01-05T14:47:08.058611+02:00"
+    created: "2021-01-06T11:53:43.577703+02:00"
     digest: 9913f817609c2021b1db75f611c63d541c3696c9a67f3b8f726934523b6fe3f2
     name: secret
     type: application
@@ -66,7 +66,17 @@ entries:
   tektonpipelines:
   - apiVersion: v2
     appVersion: 3.1.43
-    created: "2021-01-05T14:47:08.669136+02:00"
+    created: "2021-01-06T11:53:44.392377+02:00"
+    description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
+    digest: 8fee95cd5cc7918c75f146605daf3eedd5c03708da2f4bd6858b058dd8911a6e
+    name: tektonpipelines
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.5.0/tektonpipelines-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
+    appVersion: 3.1.43
+    created: "2021-01-06T11:53:44.184738+02:00"
     description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
     digest: 89db37d4af38096604163c73d1cbb8b0e6b1d6542a95381743a3816d1c87798b
     name: tektonpipelines
@@ -76,7 +86,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 3.1.43
-    created: "2021-01-05T14:47:08.466386+02:00"
+    created: "2021-01-06T11:53:44.002814+02:00"
     description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
     digest: ee9bab4736500845421c28546086d512f5155c3ddf474ef4c7d65b2989d85862
     name: tektonpipelines
@@ -86,7 +96,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 3.1.43
-    created: "2021-01-05T14:47:08.264679+02:00"
+    created: "2021-01-06T11:53:43.782831+02:00"
     description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
     digest: b87aefde35c17c51c2c7359885f26af132db4d08d5d0da2df492a1459bc689a4
     name: tektonpipelines
@@ -94,4 +104,4 @@ entries:
     urls:
     - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.1.0/tektonpipelines-0.1.0.tgz
     version: 0.1.0
-generated: "2021-01-05T14:47:06.866915+02:00"
+generated: "2021-01-06T11:53:42.403974+02:00"
