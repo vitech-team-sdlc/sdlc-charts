@@ -140,7 +140,7 @@ spec:
         - name: GIT_TOKEN
           valueFrom:
             secretKeyRef:
-              name: jx-pipeline-git-github-github
+              name: tekton-git
               key: password
     - name: save-source-branch
       workingDir: $(workspaces.source.path)
