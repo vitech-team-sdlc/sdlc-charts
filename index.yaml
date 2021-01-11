@@ -66,6 +66,16 @@ entries:
   tektonpipelines:
   - apiVersion: v2
     appVersion: 3.1.43
+    created: "2021-01-11T08:11:14.864431143Z"
+    description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
+    digest: 4c67021d9c2cc59f4a0bebebf56ccf5e3cd610209128f30a0aba2b84aedc0727
+    name: tektonpipelines
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.7.1/tektonpipelines-0.7.1.tgz
+    version: 0.7.1
+  - apiVersion: v2
+    appVersion: 3.1.43
     created: "2021-01-11T08:06:54.41481424Z"
     description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.43
     digest: 5fd434de9bfe584259853dc4370f07abcb9801ff2c23f06daff9ece36bd8c211
