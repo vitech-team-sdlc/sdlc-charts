@@ -1,11 +1,11 @@
 jx:
   images:
-    boot: gcr.io/jenkinsxio/jx-boot:3.1.104
-    cli: gcr.io/jenkinsxio/jx-cli:3.1.104
-    preview: gcr.io/jenkinsxio/jx-preview:0.0.138
-    changelog: gcr.io/jenkinsxio/jx-changelog:0.0.17
+    boot: gcr.io/jenkinsxio/jx-boot:3.1.138
+    cli: gcr.io/jenkinsxio/jx-cli:3.1.138
+    preview: gcr.io/jenkinsxio/jx-preview:0.0.139
+    changelog: gcr.io/jenkinsxio/jx-changelog:0.0.21
     release: gcr.io/jenkinsxio/jx-release-version:1.0.42
-    promote:  gcr.io/jenkinsxio/jx-promote:0.0.164
+    promote:  gcr.io/jenkinsxio/jx-promote:0.0.171
 
 jxRequirements:
   cluster:
