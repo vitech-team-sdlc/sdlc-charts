@@ -12,3 +12,27 @@ jxRequirements:
     provider: gke
     project:
     clusterName:
+
+reports:
+  pvc:
+    name: pipeline-reports
+    storage:
+      size: 1Gi
+
+
+nginx:
+  serverBlock: |-
+    server {
+      listen 8080;
+      location / {
+        root /pipeline-reports;
+        autoindex on;
+      }
+    }
+  extraVolumes:
+    - name: pipeline-reports-dir
+      persistentVolumeClaim:
+        claimName: pipeline-reports
+  extraVolumeMounts:
+    - name: pipeline-reports-dir
+      mountPath: /pipeline-reports
