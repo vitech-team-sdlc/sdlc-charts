@@ -9,7 +9,6 @@ spec:
     - description: the unique build number
       name: BUILD_ID
       type: string
-      default: ""
     - description: the name of the job which is the trigger context name
       name: JOB_NAME
       type: string
@@ -26,8 +25,7 @@ spec:
     - description: the git sha of the base of the pull request
       name: PULL_BASE_SHA
       type: string
-    - default: ""
-      description: git pull request number
+    - description: git pull request number
       name: PULL_NUMBER
       type: string
     - default: ""
@@ -54,6 +52,9 @@ spec:
       default: "warn"
     - name: TRIVY_SEVERITY
       default: "HIGH"
+    - name: ODC_CVSS
+      description: If the score set between 0 and 10 the exit code from dependency-check will indicate if a vulnerability with a CVSS score equal to or higher was identified.
+      default: "7"
   workspaces:
     - name: shared-data
       description: |
@@ -153,6 +154,24 @@ spec:
           value: "$(params.DOCKLE_EXIT_LEVEL)"
         - name: TRIVY_SEVERITY
           value: "$(params.TRIVY_SEVERITY)"
+      workspaces:
+        - name: source
+          workspace: shared-data
+
+    - name: owasp-dependencies-check-task
+      taskRef:
+        name: owasp-dependencies-check
+      runAfter:
+        - "build"
+      params:
+        - name: PROJECT_NAME
+          value: "$(params.REPO_NAME)"
+        - name: BUILD_ID
+          value: "$(params.BUILD_ID)"
+        - name: PR_NUMBER
+          value: "$(params.PULL_NUMBER)"
+        - name: ODC_CVSS
+          value: "$(params.ODC_CVSS)"
       workspaces:
         - name: source
           workspace: shared-data
