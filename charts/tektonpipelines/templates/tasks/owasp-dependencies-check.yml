@@ -1,0 +1,137 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: owasp-dependencies-check
+spec:
+  description: |
+    Checks the project depencencies with OWASP Dependency-Check and fails the build if issues are found.
+  workspaces:
+    - name: source
+      description: sources dir
+  params:
+    - name: PROJECT_NAME
+    - description: the unique build number
+      name: BUILD_ID
+      type: string
+    - name: PR_NUMBER
+      type: string
+      description: if comment with report should be published on VCS provider like GitHub
+      default: ""
+    - name: ODC_IMAGE
+      default: owasp/dependency-check:latest
+    - name: ODC_CACHE_PVC
+      default: odc-cache
+    - name: ODC_CVSS
+      description: If the score set between 0 and 10 the exit code from dependency-check will indicate if a vulnerability with a CVSS score equal to or higher was identified.
+      default: "7"
+    - name: ODC_SUPPRESSION_FILE
+      default: "odc-suppression.xml"
+    - name: PIPELINE_REPORTS_PVC
+      default: pipeline-reports
+    - name: JX_BOOT
+      default: "{{ .Values.jx.images.boot }}"
+    - name: REPORTS_BASE_HOST
+      default: "{{ .Values.reports.ingres.host }}"
+    - name: REPORTS_ROOT_DIR
+      default: "/pipeline-reports"
+      description: path to web server root location
+    - name: REPORTS_PATH
+      default: ""
+      description: if the walue is passed, it will be used instead the following part of the path `projects/:PROJECT_NAME/pr-:PR_NUMBER`
+  stepTemplate:
+    name: ""
+  volumes:
+    - name: $(params.ODC_CACHE_PVC)
+      persistentVolumeClaim:
+        claimName: odc-cache
+    - name: $(params.PIPELINE_REPORTS_PVC)
+      persistentVolumeClaim:
+        claimName: pipeline-reports
+  results:
+    - name: odc-result
+      description: dependency-check execution result
+    - name: odc-report-url
+      description: dependency-check report URL
+  steps:
+
+    - name: owasp-dependency-check
+      image: $(params.ODC_IMAGE)
+      workingDir: $(workspaces.source.path)
+      securityContext:
+        runAsUser: 0
+      script: |
+
+        create_dir_if_not_exist() {
+          if [ ! -d "$1" ]; then
+            echo "Initially creating persistent directory: $1"
+            mkdir -p "$1"
+          fi
+        }
+
+        ODC_DIR=/usr/share/dependency-check
+        ODC_BIN_DIR="$ODC_DIR/bin"
+        ODC_DATA_DIR="$ODC_DIR/data"
+        ODC_CACHE_DIR="$ODC_DATA_DIR/cache"
+        CVSS=$(params.ODC_CVSS)
+
+        # Generate report path and URL
+        if [ "$(params.REPORTS_PATH)" == "" ]; then
+        	if [ "($params.PR_NUMBER)" == "" ]; then
+          		BUILD_TYPE="master"
+        	else
+            	BUILD_TYPE="pr-$(params.PR_NUMBER)"
+        	fi
+            REPORTS_PATH="projects/$(params.PROJECT_NAME)/$BUILD_TYPE"
+        else
+            REPORTS_PATH="$(params.REPORTS_PATH)"
+        fi
+
+        ODC_REPORT_DIR="$(params.REPORTS_ROOT_DIR)"/"$REPORTS_PATH"/odc-reports/"$(params.BUILD_ID)"/
+        ODC_REPORT_URL="$(params.REPORTS_BASE_HOST)"/"$REPORTS_PATH"/odc-reports/"$(params.BUILD_ID)"/
+
+        echo $ODC_REPORT_URL > $(results.odc-report-url.path)
+
+        create_dir_if_not_exist "$ODC_DATA_DIR"
+        create_dir_if_not_exist "$ODC_CACHE_DIR"
+        create_dir_if_not_exist "$ODC_REPORT_DIR"
+
+        if "$ODC_BIN_DIR"/dependency-check.sh --failOnCVSS "$CVSS" --scan ./ --format "ALL" --project "$(params.PROJECT_NAME)" --suppression "$(params.ODC_SUPPRESSION_FILE)" --out "$ODC_REPORT_DIR" ; then
+          echo "0" > $(results.odc-result.path)
+        else
+          echo "1" > $(results.odc-result.path)
+        fi
+
+        echo "results.odc-result.path content:"
+        cat $(results.odc-result.path)
+
+      volumeMounts:
+        - name: $(params.ODC_CACHE_PVC)
+          mountPath: /usr/share/dependency-check/data
+        - name: $(params.PIPELINE_REPORTS_PVC)
+          mountPath: /pipeline-reports
+
+    - name: publish
+      image: $(params.JX_BOOT)
+      workingDir: $(workspaces.source.path)
+      script: |
+        if [ -z "$(params.PR_NUMBER)" ]; then
+          echo "No PR_NUMBER parameter provider, skipping comment."
+        else
+          REPORT_URL="$(cat $(results.odc-report-url.path))"
+
+          if [ "$(cat $(results.odc-result.path))" == "1" ]; then
+            echo -e ":spider: [Dependency-Check](https://github.com/jeremylong/DependencyCheck) found some issues. Visit the [link]($REPORT_URL) for details." > .comment-dependency-check
+            jx gitops pr comment --pr="$(params.PR_NUMBER)" --comment="$(cat .comment-dependency-check)"
+          fi
+        fi
+
+    - name: finish
+      image: $(params.JX_BOOT)
+      workingDir: $(workspaces.source.path)
+      script: |
+        if [ "$(cat $(results.odc-result.path))" == "1" ]; then
+          echo "Dependensy-Check scanning completed. Vulnerabilities with CVSS >= $(params.ODC_CVSS) found."
+          exit 1
+        else
+          echo "Dependensy-Check scanning completed. Vulnerabilities with CVSS >= $(params.ODC_CVSS) not found."
+        fi
