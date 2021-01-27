@@ -62,7 +62,7 @@ spec:
       default: slack
       description: slack secret name
     - name: SLACK_CHANEL
-      default: "#spectrum-ua-internal"
+      default: "#sdlc-notifications"
       description: slack chanel to notify about release
     - name: JX_CLI
       default: "{{ .Values.jx.images.cli }}"

@@ -121,7 +121,7 @@ spec:
 
         git fetch
 
-        git checkout $(params.PULL_PULL_SHA)
+        git checkout $PULL_BASE_SHA
         echo checked out revision: $(params.PULL_PULL_SHA) to dir: $(workspaces.source.path)
     - name: git-setup
       image: $(params.JX_BOOT)
