@@ -90,7 +90,7 @@ spec:
         echo "Continue..."
 
     - name: publish
-      image: $(params.JX_BOOT)
+      image: gcr.io/jenkinsxio/jx-boot:3.1.43
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then

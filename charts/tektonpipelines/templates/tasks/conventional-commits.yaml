@@ -59,7 +59,7 @@ spec:
         export COLUMNS=$(cat $(results.report.path) | grep "|" | awk -F"|" '{printf "%s | %s | %s", $2, $3, $4;} {print ""}' | grep -v -e '^[[:space:]]*$' | tail -n +2 | grep '[[:alnum:]]')
         echo -e "$(params.MARDOWN_HEADER) \n HASH | ERROR | MSG \n --|--|-- \n $COLUMNS" > $(results.mardown_report.path)
     - name: conventional-commits-comment
-      image: $(params.JX_BOOT)
+      image: gcr.io/jenkinsxio/jx-boot:3.1.43
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then
