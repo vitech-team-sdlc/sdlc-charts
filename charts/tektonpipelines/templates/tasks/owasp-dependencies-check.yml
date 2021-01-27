@@ -31,7 +31,7 @@ spec:
     - name: JX_BOOT
       default: "{{ .Values.jx.images.boot }}"
     - name: REPORTS_BASE_HOST
-      default: "{{ .Values.reports.ingres.host }}"
+      default: "{{ .Values.reports.ingress.hostname }}"
     - name: REPORTS_ROOT_DIR
       default: "/pipeline-reports"
       description: path to web server root location
@@ -100,9 +100,6 @@ spec:
         else
           echo "1" > $(results.odc-result.path)
         fi
-
-        echo "results.odc-result.path content:"
-        cat $(results.odc-result.path)
 
       volumeMounts:
         - name: $(params.ODC_CACHE_PVC)

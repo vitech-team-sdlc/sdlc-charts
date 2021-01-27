@@ -14,8 +14,8 @@ jxRequirements:
     clusterName:
 
 reports:
-  ingres:
-    host:
+  ingress:
+    hostname:
   pvc:
     name: pipeline-reports
     storage:
