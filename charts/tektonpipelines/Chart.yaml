@@ -1,9 +1,9 @@
 apiVersion: v2
 name: tektonpipelines
-description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.164
+description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.169
 type: application
-version: 0.9.2
-appVersion: 3.1.164
+version: 0.9.3
+appVersion: 3.1.169
 dependencies:
   - name: nginx
     repository: https://charts.bitnami.com/bitnami
