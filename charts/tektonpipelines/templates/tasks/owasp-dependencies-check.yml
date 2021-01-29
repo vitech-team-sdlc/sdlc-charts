@@ -86,8 +86,14 @@ spec:
             REPORTS_PATH="$(params.REPORTS_PATH)"
         fi
 
+        if test -f "$(params.ODC_SUPPRESSION_FILE)"; then
+          SUPPRESSION="--suppression $(params.ODC_SUPPRESSION_FILE)"
+        else
+          SUPPRESSION=""
+        fi
+
         ODC_REPORT_DIR="$(params.REPORTS_ROOT_DIR)"/"$REPORTS_PATH"/odc-reports/"$(params.BUILD_ID)"/
-        ODC_REPORT_URL="$(params.REPORTS_BASE_HOST)"/"$REPORTS_PATH"/odc-reports/"$(params.BUILD_ID)"/
+        ODC_REPORT_URL=http://"$(params.REPORTS_BASE_HOST)"/"$REPORTS_PATH"/odc-reports/"$(params.BUILD_ID)"/
 
         echo $ODC_REPORT_URL > $(results.odc-report-url.path)
 
@@ -95,7 +101,7 @@ spec:
         create_dir_if_not_exist "$ODC_CACHE_DIR"
         create_dir_if_not_exist "$ODC_REPORT_DIR"
 
-        if "$ODC_BIN_DIR"/dependency-check.sh --failOnCVSS "$CVSS" --scan ./ --format "ALL" --project "$(params.PROJECT_NAME)" --suppression "$(params.ODC_SUPPRESSION_FILE)" --out "$ODC_REPORT_DIR" ; then
+        if "$ODC_BIN_DIR"/dependency-check.sh --failOnCVSS "$CVSS" --scan ./ --format "ALL" --project "$(params.PROJECT_NAME)" --out "$ODC_REPORT_DIR" $SUPPRESSION ; then
           echo "0" > $(results.odc-result.path)
         else
           echo "1" > $(results.odc-result.path)

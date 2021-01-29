@@ -52,6 +52,12 @@ spec:
     - name: trivy-scan
       image: $(params.TRIVY_IMAGE)
       workingDir: $(workspaces.source.path)
+      env:
+      - name: GITHUB_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: tekton-git
+            key: password
       script: |
         PERFORM_SCAN="$(params.scan-image)"
         if [[ "${PERFORM_SCAN}" == "false" ]] || [[ -z "${PERFORM_SCAN}" ]]; then
@@ -59,7 +65,7 @@ spec:
           exit 0
         fi
 
-        if trivy --cache-dir="/.trivycache/" image   --no-progress --exit-code 1 --severity "$(params.TRIVY_SEVERITY)" -f json -o ".trivy-report.json" "$(params.image-url)" ; then
+        if trivy --cache-dir="/.trivycache/" image --no-progress --exit-code 1 --severity "$(params.TRIVY_SEVERITY)" -f json -o ".trivy-report.json" "$(params.image-url)" ; then
           echo "0" > $(results.trivy-result.path)
         else
           echo "1" > $(results.trivy-result.path)
