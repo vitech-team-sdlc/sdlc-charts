@@ -3,20 +3,13 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: buildpacks
-  labels:
-    app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.12.1"
     tekton.dev/tags: image-build
     tekton.dev/displayName: "buildpacks"
 spec:
   description: >-
-    The Buildpacks task builds source into a container image and pushes it to a registry,
-    using Cloud Native Buildpacks.
-    Cloud Native Buildpacks are pluggable, modular tools that transform application source code
-    into OCI images. They replace Dockerfiles in the app development lifecycle, and allow for swift
-    rebasing of images, and give modular control over images through the use of builders, among other
-    benefits. This command uses a builder to construct the image, and pushes it to the registry provided.
+    The Buildpacks task builds source into a container image and pushes it to a registry, using Cloud Native Buildpacks. Cloud Native Buildpacks are pluggable, modular tools that transform application source code into OCI images. They replace Dockerfiles in the app development lifecycle, and allow for swift rebasing of images, and give modular control over images through the use of builders, among other benefits. This command uses a builder to construct the image, and pushes it to the registry provided.
   params:
     - name: BUILDER_IMAGE
       description: The image on which builds will run (must include lifecycle and compatible buildpacks).
@@ -49,8 +42,8 @@ spec:
     - name: COPY_FOLDER
       description: paketo cleaning directory after build, so we need copy sources and run build there
       default: "source_copy"
-    - name: JX_CLI
-      default: "{{ .Values.jx.images.cli }}"
+    - name: JX_BOOT
+      default: "{{ .Values.jx.images.boot }}"
   workspaces:
     - name: source
   stepTemplate:
@@ -59,7 +52,7 @@ spec:
         value: "0.3"
   steps:
     - name: prepare
-      image: $(params.JX_CLI)
+      image: $(params.JX_BOOT)
       command: [ "/bin/sh" ]
       args:
         - "-c"
@@ -80,20 +73,27 @@ spec:
         privileged: true
     - name: create
       image: $(params.BUILDER_IMAGE)
-      command: [ "/cnb/lifecycle/creator" ]
-      args:
-        - "-app=/$(params.COPY_FOLDER)"
-        - "-cache-dir=/cache"
-        - "-cache-image=$(params.CACHE_IMAGE)"
-        - "-gid=$(params.GROUP_ID)"
-        - "-layers=/layers"
-        - "-platform=/platform"
-        - "-process-type=$(params.PROCESS_TYPE)"
-        - "-skip-restore=$(params.SKIP_RESTORE)"
-        - "-previous-image=$(params.IMAGE)"
-        - "-run-image=$(params.RUN_IMAGE)"
-        - "-uid=$(params.USER_ID)"
-        - "$(params.IMAGE)"
+      script: |
+        DOCKER_CUSTOM_CONF="$(workspaces.source.path)/.docker-config.json"
+
+        if [ -f "$DOCKER_CUSTOM_CONF" ]; then
+          mkdir -p /tekton/home/.docker/
+          cp $(workspaces.source.path)/.docker-config.json /tekton/home/.docker/config.json
+        fi
+
+        /cnb/lifecycle/creator \
+          -app=/$(params.COPY_FOLDER) \
+          -cache-dir=/cache \
+          -cache-image=$(params.CACHE_IMAGE) \
+          -gid=$(params.GROUP_ID) \
+          -layers=/layers \
+          -platform=/platform \
+          -process-type=$(params.PROCESS_TYPE) \
+          -skip-restore=$(params.SKIP_RESTORE) \
+          -previous-image=$(params.IMAGE) \
+          -run-image=$(params.RUN_IMAGE) \
+          -uid=$(params.USER_ID) \
+          $(params.IMAGE)
       env:
         - name: ARTIFACT_REGISTRY_PASSWORD
           valueFrom:

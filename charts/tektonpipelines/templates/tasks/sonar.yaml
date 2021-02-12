@@ -11,13 +11,11 @@ metadata:
 spec:
   description: >-
     SONAR_TOKEN env variable should be provided.
-
-    The following task can be used to perform static analysis on the source code
-    provided the SonarQube server is hosted
-    SonarQube is the leading tool for continuously inspecting the Code Quality and Security
-    of your codebases, all while empowering development teams. Analyze over 25 popular
-    programming languages including C#, VB.Net, JavaScript, TypeScript and C++. It detects
-    bugs, vulnerabilities and code smells across project branches and pull requests.
+    The following task can be used to perform static analysis on the source code provided the SonarQube server is hosted
+    SonarQube is the leading tool for continuously inspecting the Code Quality and Security of your codebases,
+    all while empowering development teams. Analyze over 25 popular programming languages including C#, VB.Net,
+    JavaScript, TypeScript and C++. It detects bugs, vulnerabilities and code smells across project branches
+    and pull requests.
   workspaces:
     - name: source
   params:
@@ -59,8 +57,8 @@ spec:
     - name: SONAR_IMAGE
       description: "image of sonar-scanner-cli"
       default: "sonarsource/sonar-scanner-cli:4.5"
-    - name: JX_CLI
-      default: "{{ .Values.jx.images.cli }}"
+    - name: JX_BOOT
+      default: "{{ .Values.jx.images.boot }}"
   results:
     - name: url
       description: Sonar analys URL
@@ -111,8 +109,10 @@ spec:
               replaceValues $(workspaces.source.path)/sonar-project.properties sonar.scm.provider ${SONAR_SCM_PROVIDER}
           fi
 
+          export PR_PROVIDER="github"
+
           if [[ -n "$(params.REPO_OWNER)"  && -n "$(params.REPO_NAME)" ]]; then
-              replaceValues $(workspaces.source.path)/sonar-project.properties sonar.pullrequest.github.repository $(params.REPO_OWNER)/$(params.REPO_NAME)
+              replaceValues $(workspaces.source.path)/sonar-project.properties "sonar.pullrequest.${PR_PROVIDER}.repository" $(params.REPO_OWNER)/$(params.REPO_NAME)
           fi
 
           if [[ -n "${SONAR_ORGANIZATION}" ]]; then
@@ -124,6 +124,7 @@ spec:
           fi
 
           if [[ -n "$(params.SONAR_PR_BRANCH)" ]]; then
+            replaceValues $(workspaces.source.path)/sonar-project.properties sonar.qualitygate.wait "true"
             replaceValues $(workspaces.source.path)/sonar-project.properties sonar.pullrequest.branch "$(params.SONAR_PR_BRANCH)"
             replaceValues $(workspaces.source.path)/sonar-project.properties sonar.pullrequest.base $(params.SONAR_PR_BASE)
             replaceValues $(workspaces.source.path)/sonar-project.properties sonar.pullrequest.key $(params.SONAR_PR_KEY)
@@ -143,7 +144,7 @@ spec:
       script: |
         sonar-scanner -Dsonar.login=${SONAR_TOKEN} > .sonar
         cat .sonar
-        cat .sonar | grep "More about the report processing at" | grep -Eo '(http|https).+' > .status_link
+        cat .sonar | grep "QUALITY GATE STATUS" | grep -Eo '(http|https).+' > .status_link
         rm -rf .scannerwork
       env:
         - name: SONAR_TOKEN
@@ -151,33 +152,12 @@ spec:
             secretKeyRef:
               name: $(params.SONAR_SECRET)
               key: sonar-login
-    - name: verify-sonar-status
-      image: $(params.JX_CLI)
+    - name: comment-status
+      image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
       script: |
-        #!/usr/bin/env bash
-        if $(params.WAIT_COMPLETION); then
-          while !(curl -u $SONAR_TOKEN: -v --silent "$(cat .status_link)" --stderr - | grep '"status":"SUCCESS"' > /dev/null;)
-          do
-            sleep 1;
-          done
-          export ANALYSIS_ID=$(curl -u $SONAR_TOKEN: -v --silent "$(cat .status_link)" --stderr - | grep -Po '(?<="analysisId":")[^"\\]*(?:\\.[^"\\]*)*')
-          curl -u $SONAR_TOKEN: -v --silent "https://sonarcloud.io/api/qualitygates/project_status?analysisId=$ANALYSIS_ID&pullRequest=$SONAR_PR_KEY" > .quality_gate
-          cat .quality_gate
-          cat .quality_gate | grep -Po '(?<="projectStatus":{"status":")[^"\\]*(?:\\.[^"\\]*)*' > .status
-          printf "\nStatus:"
-          cat .status
-          if [[ $(< .status) != "OK" ]]; then
-            echo "Sonar status failed!"
-            exit 1;
-          fi
-          echo "Sonar status successful!"
-        else
-          echo "Skip wait for completion..."
+        if [[ -n "$(params.SONAR_PR_KEY)" ]]; then
+          jx gitops pr comment --pr="$(params.SONAR_PR_KEY)" --comment="Sonar check: $(cat .status_link)"
         fi
-      env:
-        - name: SONAR_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: $(params.SONAR_SECRET)
-              key: sonar-login
+
+

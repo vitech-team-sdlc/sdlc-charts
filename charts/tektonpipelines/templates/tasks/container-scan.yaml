@@ -59,6 +59,13 @@ spec:
             name: tekton-git
             key: password
       script: |
+        DOCKER_CUSTOM_CONF="$(workspaces.source.path)/.docker-config.json"
+
+        if [ -f "$DOCKER_CUSTOM_CONF" ]; then
+          mkdir -p /tekton/home/.docker/
+          cp $(workspaces.source.path)/.docker-config.json /tekton/home/.docker/config.json
+        fi
+
         PERFORM_SCAN="$(params.scan-image)"
         if [[ "${PERFORM_SCAN}" == "false" ]] || [[ -z "${PERFORM_SCAN}" ]]; then
           echo "User selected to skip scanning. Skipping Trivy scan."
@@ -75,14 +82,13 @@ spec:
       volumeMounts:
         - name: $(params.TRIVY_CACHE_PVC)
           mountPath: /.trivycache/
-
     - name: dockle-scan
       image: $(params.DOCKLE_IMAGE)
       workingDir: $(workspaces.source.path)
       script: |
 
         PERFORM_SCAN="$(params.scan-image)"
-        if [[ "${PERFORM_SCAN}" == "false" ]] || [[ -z "${PERFORM_SCAN}" ]]; then
+        if [[ "${PERFORM_SCAN}" == "false" ]] || [[ -z "${PERFORM_SCAN}" ]] || [[ ! -z "${AWS_ROLE_ARN}" ]]; then
           echo "User selected to skip scanning. Skipping Dockle scan."
           exit 0
         fi
@@ -94,9 +100,8 @@ spec:
         fi
 
         echo "Continue..."
-
     - name: publish
-      image: gcr.io/jenkinsxio/jx-boot:3.1.43
+      image: {{ .Values.jx.images.boot }}
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then
@@ -111,7 +116,6 @@ spec:
               jx gitops pr comment --pr="$(params.PR_NUMBER)" --comment="$(cat .comment-trivy)"
             fi
         fi
-
     - name: finish
       image: $(params.DOCKLE_IMAGE)
       workingDir: $(workspaces.source.path)
@@ -129,5 +133,3 @@ spec:
         else
           echo "Trivy scanning completed. $(params.TRIVY_SEVERITY) vulnerabilities not found."
         fi
-
-

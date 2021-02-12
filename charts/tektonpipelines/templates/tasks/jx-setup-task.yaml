@@ -188,3 +188,19 @@ spec:
         source $(workspaces.source.path)/.jx/variables.sh
         export OUTPUT_IMAGE=$DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME:$VERSION
         echo -n "$OUTPUT_IMAGE" > $(results.image.path)
+    {{- if eq .Values.jxRequirements.cluster.provider "eks" }}
+    - name: generate-docker-config
+      image: docker.io/amazon/aws-cli:2.0.52@sha256:1506cec98a7101c935176d440a14302ea528b8f92fcaf4a6f1ea2d7ecef7edc4
+      workingDir: $(workspaces.source.path)
+      script: |
+        source $(workspaces.source.path)/.jx/variables.sh
+        DOCKER_CONF_FILE=".docker-config.json"
+        if [ -n "AWS_ROLE_ARN" ]; then
+        AWS_TOKEN=$(aws ecr get-login-password)
+
+        cat <<EOF > $DOCKER_CONF_FILE
+        {"auths":{"$DOCKER_REGISTRY":{"username":"AWS","password":"${AWS_TOKEN}"}}}
+        EOF
+
+        fi
+    {{- end }}
