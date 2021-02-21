@@ -152,7 +152,7 @@ spec:
           echo "Soure branch is: $(cat $(results.source_branch.path))"
         fi
     - name: git-merge
-      image: gcr.io/jenkinsxio/builder-jx:2.1.142-761
+      image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
       script: |
         if [[ "$(params.GIT_CHECKOUT_STRATEGY)" == "jx" ]]; then

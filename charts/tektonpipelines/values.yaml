@@ -4,7 +4,7 @@ jx:
     # boot version where "jx gitops pr comment" is not broken
     boot_comment: gcr.io/jenkinsxio/jx-boot:3.1.43
     cli: ghcr.io/jenkins-x/jx-cli:3.1.266
-    preview: gcr.io/jenkinsxio/jx-preview:0.0.159
+    preview: ghcr.io/jenkins-x/jx-preview:0.0.159
     changelog: gcr.io/jenkinsxio/jx-changelog:0.0.34
     release: gcr.io/jenkinsxio/jx-release-version:2.2.3
     promote:  ghcr.io/jenkins-x/jx-promote:0.0.237
