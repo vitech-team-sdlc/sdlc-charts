@@ -96,7 +96,7 @@ spec:
           echo "failed" > $(results.status.path)
         fi
     - name: snyk-comment
-      image: $(params.JX_CLI)
+      image: "{{ .Values.jx.images.boot_comment }}"
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env bash

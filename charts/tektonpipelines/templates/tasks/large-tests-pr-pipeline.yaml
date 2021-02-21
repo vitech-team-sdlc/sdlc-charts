@@ -71,15 +71,13 @@ spec:
         fi
     - name: comment
       workingDir: /workspace/source
-      image: $(params.JX_CLI)
+      image: "{{ .Values.jx.images.boot_comment }}"
       script: |
         if grep -w "production" .promotion_label; then
           if grep -w "True" .test_status; then
-            jx gitops pr comment --comment="[Large tests for specified versions passed.]"
-            jx gitops pr comment --comment="$(cat .test_comment)"
+            jx gitops pr comment --comment="[Large tests for specified versions passed.] $(cat .test_comment)"
           else
-            jx gitops pr comment --comment=":x: [Large tests for specified versions not passed :hot_face: !]"
-            jx gitops pr comment --comment="$(cat .test_comment)"
+            jx gitops pr comment --comment=":x: [Large tests for specified versions not passed :hot_face: !] $(cat .test_comment)"
             exit 1
           fi
         fi

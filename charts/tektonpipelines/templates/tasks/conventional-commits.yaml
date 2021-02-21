@@ -58,7 +58,7 @@ spec:
         export COLUMNS=$(cat $(params.RESULTS_REPORT_PATH) | grep "|" | awk -F"|" '{printf "%s | %s | %s", $2, $3, $4;} {print ""}' | grep -v -e '^[[:space:]]*$' | tail -n +2 | grep '[[:alnum:]]')
         echo -e "$(params.MARDOWN_HEADER) \n \n HASH | ERROR | MSG \n --|--|-- \n $COLUMNS" > "$(params.RESULTS_MARKDOWN_REPORT_PATH)"
     - name: conventional-commits-comment
-      image: gcr.io/jenkinsxio/jx-boot:3.1.43
+      image: "{{ .Values.jx.images.boot_comment }}"
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then

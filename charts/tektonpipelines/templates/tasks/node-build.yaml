@@ -18,7 +18,7 @@ spec:
     - name: IMAGE
       type: string
       description: node image
-      default: "gcr.io/jenkinsxio/builder-nodejs12x:latest"
+      default: "{{ .Values.task.images.node }}"
     - name: ARTIFACT_REGISTRY_URL
       default: "http://nexus/repository/npmjs-registry/"
     - name: ARTIFACT_REGISTRY_USER
@@ -58,7 +58,6 @@ spec:
         - install
     - name: test
       image: $(params.IMAGE)
-      imagePullPolicy: IfNotPresent
       workingDir: $(workspaces.source.path)
       command:
         - npm
@@ -66,7 +65,6 @@ spec:
         - test
     - name: build-prod
       image: $(params.IMAGE)
-      imagePullPolicy: IfNotPresent
       workingDir: $(workspaces.source.path)
       command:
         - npm

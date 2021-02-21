@@ -101,7 +101,7 @@ spec:
 
         echo "Continue..."
     - name: publish
-      image: {{ .Values.jx.images.boot }}
+      image: "{{ .Values.jx.images.boot_comment }}"
       workingDir: $(workspaces.source.path)
       script: |
         if [ -z "$(params.PR_NUMBER)" ]; then
