@@ -14,6 +14,87 @@ task:
     gradle: "gradle:6.3.0-jdk11"
     node: "gcr.io/jenkinsxio/builder-nodejs12x:latest"
     gitleaks: "zricethezav/gitleaks:v7.1.0"
+  release:
+    slackChannel: ""
+    message: |
+      {
+        "channel": "${SLACK_CHANEL}",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": ":tada: Application \`${APP_NAME}\` of version \`${VERSION}\` has been packed. \n Application will be *autopromoted* on *staging* environment _soon_, see created <${PR_URL}|pull request>."
+            }
+          },
+          {
+            "type": "actions",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": ":nyancat: Promote PR",
+                  "emoji": true
+                },
+                "value": "click_me_123",
+                "url": "${PR_URL}",
+                "action_id": "pr"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": ":octocat: Repository Tag",
+                  "emoji": true
+                },
+                "value": "click_me_123",
+                "url": "${REPO_TAG_URL}",
+                "action_id": "repo"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": ":potato: Change Log",
+                  "emoji": true
+                },
+                "value": "click_me_123",
+                "url": "${CHANGE_LOG_URL}",
+                "action_id": "changelog"
+              },
+              {
+                "type": "button",
+                "text": {
+                  "type": "plain_text",
+                  "text": ":whale: Docker Image",
+                  "emoji": true
+                },
+                "value": "click_me_123",
+                "url": "${DOCKER_IMAGE_URL}",
+                "action_id": "dockerImage"
+              }
+            ]
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "<https://vitech-team.github.io/SDLC|VITech SDLC Team>"
+              },
+              {
+                "type": "image",
+                "image_url": "https://static2.clutch.co/s3fs-public/logos/cf05ec722c2e35d3158c03924a09dd2e.png",
+                "alt_text": "VItech SDLC"
+              }
+            ]
+          }
+        ]
+      }
 
 jxRequirements:
   cluster:

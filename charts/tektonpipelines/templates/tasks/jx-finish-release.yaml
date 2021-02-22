@@ -62,7 +62,7 @@ spec:
       default: slack
       description: slack secret name
     - name: SLACK_CHANEL
-      default: "#sdlc-notifications"
+      default: "{{ .Values.task.release.slackChannel }}"
       description: slack chanel to notify about release
     - name: JX_BOOT
       default: "{{ .Values.jx.images.boot }}"
@@ -139,6 +139,7 @@ spec:
         source .jx/variables.sh
         jx promote -b --all-auto --timeout 1h --no-poll &> promote.log
         cat promote.log
+    {{- if .Values.task.release.slackChannel }}
     - name: slack-notify
       image: $(params.JX_CLI)
       workingDir: $(workspaces.source.path)
@@ -166,82 +167,5 @@ spec:
         - name: SLACK_CHANEL
           value: "$(params.SLACK_CHANEL)"
         - name: SLACK_MESSAGE_TMPL
-          value: |
-            {
-              "channel": "${SLACK_CHANEL}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":tada: Application \`${APP_NAME}\` of version \`${VERSION}\` has been packed. \n Application will be *autopromoted* on *staging* environment _soon_, see created <${PR_URL}|pull request>."
-                  }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": ":nyancat: Promote PR",
-                        "emoji": true
-                      },
-                      "value": "click_me_123",
-                      "url": "${PR_URL}",
-                      "action_id": "pr"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": ":octocat: Repository Tag",
-                        "emoji": true
-                      },
-                      "value": "click_me_123",
-                      "url": "${REPO_TAG_URL}",
-                      "action_id": "repo"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": ":potato: Change Log",
-                        "emoji": true
-                      },
-                      "value": "click_me_123",
-                      "url": "${CHANGE_LOG_URL}",
-                      "action_id": "changelog"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": ":whale: Docker Image",
-                        "emoji": true
-                      },
-                      "value": "click_me_123",
-                      "url": "${DOCKER_IMAGE_URL}",
-                      "action_id": "dockerImage"
-                    }
-                  ]
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "<https://vitech-team.github.io/SDLC|VITech SDLC Team>"
-                    },
-                    {
-                      "type": "image",
-                      "image_url": "https://static2.clutch.co/s3fs-public/logos/cf05ec722c2e35d3158c03924a09dd2e.png",
-                      "alt_text": "VItech SDLC"
-                    }
-                  ]
-                }
-              ]
-            }
+          value: {{ .Values.task.release.message | toJson }}
+    {{- end }}
