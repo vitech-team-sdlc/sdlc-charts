@@ -10,6 +10,9 @@ jx:
     promote:  ghcr.io/jenkins-x/jx-promote:0.0.237
 
 task:
+  serviceAccount:
+    name: "tekton-build-bot"
+    errMSg: "service account name need to be provided"
   images:
     gradle: "gradle:6.3.0-jdk11"
     node: "gcr.io/jenkinsxio/builder-nodejs12x:latest"
