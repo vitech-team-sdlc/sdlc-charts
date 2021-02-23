@@ -39,7 +39,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: "tekton-build-bot-jx"
+  name: "{{ .Values.task.serviceAccount.name }}-jx"
   labels:
     gitops.jenkins-x.io/pipeline: 'cluster'
 roleRef:
@@ -48,7 +48,7 @@ roleRef:
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+    name: "{{ .Values.task.serviceAccount.name }}"
     namespace: jx
   - kind: ServiceAccount
     name: "tekton-bot"
@@ -57,23 +57,23 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+  name: "{{ .Values.task.serviceAccount.name }}"
   namespace: jx
   labels:
     gitops.jenkins-x.io/pipeline: 'namespaces'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+  name: "{{ .Values.task.serviceAccount.name }}"
 subjects:
   - kind: ServiceAccount
-    name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+    name: "{{ .Values.task.serviceAccount.name }}"
     namespace: jx
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+  name: "{{ .Values.task.serviceAccount.name }}"
   namespace: jx
   labels:
     gitops.jenkins-x.io/pipeline: 'namespaces'
@@ -88,7 +88,7 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: "{{ required .Values.task.serviceAccount.errMSg .Values.task.serviceAccount.name }}"
+  name: "{{ .Values.task.serviceAccount.name }}"
   {{- if and (hasKey .Values.jxRequirements.cluster "project") (hasKey .Values.jxRequirements.cluster "clusterName") (eq .Values.jxRequirements.cluster.provider "eks") }}
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::{{ .Values.jxRequirements.cluster.project }}:role/{{ .Values.jxRequirements.cluster.clusterName }}-tekton-bot
