@@ -188,9 +188,10 @@ spec:
         source $(workspaces.source.path)/.jx/variables.sh
         export OUTPUT_IMAGE=$DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME:$VERSION
         echo -n "$OUTPUT_IMAGE" > $(results.image.path)
-    - name: check-registry
-      image: gcr.io/jenkinsxio/jx-registry:0.0.10
     {{- if eq .Values.jxRequirements.cluster.provider "eks" }}
+    - name: check-registry
+      workingDir: $(workspaces.source.path)
+      image: gcr.io/jenkinsxio/jx-registry:0.0.10
     - name: generate-docker-config
       image: docker.io/amazon/aws-cli:2.0.52@sha256:1506cec98a7101c935176d440a14302ea528b8f92fcaf4a6f1ea2d7ecef7edc4
       workingDir: $(workspaces.source.path)
