@@ -15,14 +15,15 @@ spec:
       description: Flag indicating that a scan should be performed
       default: "true"
     - name: TRIVY_IMAGE
-      default: aquasec/trivy:0.15.0
+      default: "aquasec/trivy:0.15.0"
     - name: TRIVY_CACHE_PVC
-      default: trivy-cache
+      default: "trivy-cache"
     - name: TRIVY_SEVERITY
       default: "CRITICAL"
     - name: DOCKLE_IMAGE
-      default: goodwithtech/dockle:v0.3.1
+      default: "goodwithtech/dockle:v0.3.1"
     - name: DOCKLE_EXIT_LEVEL
+      type: "string"
       default: "warn"
     - name: PR_NUMBER
       type: string
@@ -32,8 +33,6 @@ spec:
       type: string
       description: "Name of docker-socket volume to mount: /var/run/docker.sock"
       default: "docker-socket"
-    - name: JX_BOOT
-      default: "{{ .Values.jx.images.boot }}"
   stepTemplate:
     name: ""
     volumeMounts:
@@ -52,12 +51,14 @@ spec:
     - name: trivy-scan
       image: $(params.TRIVY_IMAGE)
       workingDir: $(workspaces.source.path)
+      {{- if eq .Values.jxRequirements.cluster.gitKind "github" }}
       env:
       - name: GITHUB_TOKEN
         valueFrom:
           secretKeyRef:
             name: tekton-git
             key: password
+      {{- end }}
       script: |
         DOCKER_CUSTOM_CONF="$(workspaces.source.path)/.docker-config.json"
 

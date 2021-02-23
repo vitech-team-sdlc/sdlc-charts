@@ -49,10 +49,13 @@ spec:
       name: REPO_URL
       type: string
     - name: DOCKLE_EXIT_LEVEL
+      type: string
       default: "warn"
     - name: TRIVY_SEVERITY
+      type: string
       default: "HIGH"
     - name: ODC_CVSS
+      type: string
       description: If the score set between 0 and 10 the exit code from dependency-check will indicate if a vulnerability with a CVSS score equal to or higher was identified.
       default: "7"
   workspaces:

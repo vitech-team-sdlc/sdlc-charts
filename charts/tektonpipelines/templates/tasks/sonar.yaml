@@ -51,14 +51,9 @@ spec:
     - name: REPO_NAME
       description: repository name
       default: ""
-    - name: WAIT_COMPLETION
-      description: wait for sonar job completion
-      default: "false"
     - name: SONAR_IMAGE
       description: "image of sonar-scanner-cli"
       default: "sonarsource/sonar-scanner-cli:4.5"
-    - name: JX_BOOT
-      default: "{{ .Values.jx.images.boot }}"
   results:
     - name: url
       description: Sonar analys URL
@@ -162,15 +157,18 @@ spec:
         fi
 
         if [[ -n "$(params.SONAR_PR_KEY)" ]]; then
-          export FAILED=$(cat .sonar | grep "QUALITY GATE STATUS" | grep "FAILED")
+          export FAILED="$(cat .sonar | grep 'QUALITY GATE STATUS' | grep 'PASSED')"
         else
-          export FAILED=$(cat .sonar | grep "ANALYSIS SUCCESSFUL")
+          export FAILED=$(cat .sonar | grep 'ANALYSIS SUCCESSFUL')
         fi
 
         rm .sonar
 
         if [[ -z "$FAILED" ]]; then
-          exit 1
+            echo "Oops!"
+            exit 1
+          else
+            echo "Wohoo!"
         fi
 
 

@@ -102,6 +102,7 @@ task:
 jxRequirements:
   cluster:
     provider: gke
+    gitKind: github
     project:
     clusterName:
 

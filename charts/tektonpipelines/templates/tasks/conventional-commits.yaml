@@ -18,7 +18,7 @@ spec:
     - name: MARDOWN_HEADER
       type: string
       description: header of comment
-      default: "[Conventional Commits](https://www.conventionalcommits.org): **Check Failed** :cursing_face:"
+      default: "[Conventional Commits](https://www.conventionalcommits.org): **Check Failed** :angry:"
     - name: PR_NUMBER
       type: string
       description: Pull Request Number to left comment

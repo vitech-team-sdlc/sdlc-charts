@@ -132,8 +132,6 @@ spec:
           value: "$(params.REPO_OWNER)"
         - name: REPO_NAME
           value: "$(params.REPO_NAME)"
-        - name: WAIT_COMPLETION
-          value: "true"
       workspaces:
         - name: source
           workspace: shared-data
