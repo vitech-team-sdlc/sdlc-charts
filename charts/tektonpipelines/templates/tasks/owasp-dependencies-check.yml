@@ -114,9 +114,11 @@ spec:
           mountPath: /pipeline-reports
 
     - name: publish
-      image: "{{ .Values.jx.images.boot_comment }}"
+      image: "{{ .Values.jx.images.boot }}"
       workingDir: $(workspaces.source.path)
       script: |
+        export REPO_URL="$(git config --get remote.origin.url)"
+
         if [ -z "$(params.PR_NUMBER)" ]; then
           echo "No PR_NUMBER parameter provider, skipping comment."
         else
