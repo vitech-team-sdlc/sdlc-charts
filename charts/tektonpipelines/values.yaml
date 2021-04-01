@@ -4,11 +4,11 @@ jx:
     # boot version where "jx gitops pr comment" is not broken
     boot_comment: gcr.io/jenkinsxio/jx-boot:3.1.353
     cli: ghcr.io/jenkins-x/jx-cli:3.1.353
-    preview: ghcr.io/jenkins-x/jx-preview:0.0.176
+    preview: ghcr.io/jenkins-x/jx-preview:0.0.172
     changelog: gcr.io/jenkinsxio/jx-changelog:0.0.36
-    release: gcr.io/jenkinsxio/jx-release-version:2.2.3
-    promote:  ghcr.io/jenkins-x/jx-promote:0.0.249
-    registry: gcr.io/jenkinsxio/jx-registry:0.0.11
+    release: gcr.io/jenkinsxio/jx-release-version:2.2.6
+    promote:  ghcr.io/jenkins-x/jx-promote:0.0.248
+    registry: gcr.io/jenkinsxio/jx-registry:0.0.12
 
 task:
   serviceAccount:
