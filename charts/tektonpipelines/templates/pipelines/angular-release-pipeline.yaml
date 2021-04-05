@@ -54,6 +54,10 @@ spec:
       type: string
       description: release args
       default: "--semantic-release --filename package.json"
+    - name: SLACK_CHANEL
+      type: string
+      description: slack channel name to notify about release
+      default: "{{ .Values.task.release.slackChannel }}"
   workspaces:
     - name: shared-data
       description: |
@@ -174,6 +178,8 @@ spec:
           value: $(params.REPO_OWNER)
         - name: REPO_URL
           value: $(params.REPO_URL)
+        - name: SLACK_CHANEL
+          value: $(params.SLACK_CHANEL)
       workspaces:
         - name: source
           workspace: shared-data

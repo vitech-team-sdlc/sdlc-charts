@@ -60,7 +60,7 @@ spec:
     - name: SLACK_CHANEL
       type: string
       description: slack channel name to notify about release
-      default: "#spectrum-ua-internal"
+      default: "{{ .Values.task.release.slackChannel }}"
   workspaces:
     - name: shared-data
       description: |
