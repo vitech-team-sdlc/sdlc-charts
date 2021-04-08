@@ -1,8 +1,8 @@
 apiVersion: v2
 name: tektonpipelines
-description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.300
+description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.353
 type: application
-version: 0.10.3
+version: 0.10.4
 appVersion: 3.1.353
 dependencies:
   - name: nginx
