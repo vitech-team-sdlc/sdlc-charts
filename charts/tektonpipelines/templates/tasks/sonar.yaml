@@ -137,7 +137,7 @@ spec:
       image: $(params.SONAR_IMAGE)
       workingDir: $(workspaces.source.path)
       script: |
-        sonar-scanner -Dsonar.login=${SONAR_TOKEN} &> .sonar
+        sonar-scanner -Dsonar.login=${SONAR_TOKEN} >.sonar 2>&1  | echo "sonar failed"
         cat .sonar
         rm -rf .scannerwork
       env:
