@@ -110,6 +110,10 @@ spec:
     - name: git-configure
       image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
+      envFrom:
+        - secretRef:
+            name: jx-boot-job-env-vars
+            optional: true
       script: |
         #!/usr/bin/env sh
 
@@ -214,4 +218,4 @@ spec:
         EOF
 
         fi
-    {{- end }}
+        {{- end }}

@@ -20,7 +20,7 @@ spec:
       type: string
       default: "{{ .Values.task.images.gradle }}"
     - name: JAVA_OPTIONS
-      default: "-Xms10m -Xmx192m"
+      default: "-Xms10m -Xmx256m"
     - name: ARGS
       description: gradle exctra args
       type: array
@@ -47,6 +47,10 @@ spec:
     - name: build
       image: $(params.IMAGE)
       workingDir: $(workspaces.source.path)
+      resources:
+        requests:
+          cpu: 400m
+          memory: 512Mi
       command:
         - gradle
       args:

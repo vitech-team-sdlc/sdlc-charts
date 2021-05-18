@@ -48,8 +48,6 @@ spec:
       type: string
       default: "true"
       description: "if task need to failed in case of found vulnerabilities"
-    - name: JX_CLI
-      default: "{{ .Values.jx.images.cli }}"
   stepTemplate:
     env:
       - name: SNYK_TOKEN
