@@ -66,6 +66,20 @@ entries:
   tektonpipelines:
   - apiVersion: v2
     appVersion: 3.1.353
+    created: "2021-06-10T12:50:16.514214707Z"
+    dependencies:
+    - name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.1
+    description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.353
+    digest: 25a1326cc4bc7dbb7985ebbc0ac085858a6ab1ec2b4e2e63cd392f12f65148ac
+    name: tektonpipelines
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.11.2/tektonpipelines-0.11.2.tgz
+    version: 0.11.2
+  - apiVersion: v2
+    appVersion: 3.1.353
     created: "2021-06-10T12:00:32.799356357Z"
     dependencies:
     - name: nginx
