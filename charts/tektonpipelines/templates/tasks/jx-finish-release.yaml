@@ -161,17 +161,20 @@ spec:
         #!/usr/bin/env bash
         source .jx/variables.sh
 
-        export PR_URL=$(cat promote.log | grep "Created Pull Request" | grep -Eo '(http|https).+')
+        export PR_URLS=$(cat promote.log | grep "Created Pull Request" | grep -Eo '(http|https).+')
         export REPO_TAG_URL="https://github.com/$(params.REPO_OWNER)/$(params.REPO_NAME)/tree/v${VERSION}"
         export DOCKER_IMAGE_URL="https://$DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME:$VERSION"
         export CHANGE_LOG_URL="https://github.com/$(params.REPO_OWNER)/$(params.REPO_NAME)/releases/tag/v${VERSION}"
 
+        echo "${PR_URLS}" | while read line ; do
+        export PR_URL="$line"
         eval "cat <<EOF
         $SLACK_MESSAGE_TMPL
         EOF
         " >rpl.json
         export MESSAGE=$(cat rpl.json)
         curl -X POST -H 'Content-type: application/json' -H "Authorization: Bearer $SLACK_TOKEN" --data "$MESSAGE" https://slack.com/api/chat.postMessage
+        done
       env:
         - name: SLACK_TOKEN
           valueFrom:
