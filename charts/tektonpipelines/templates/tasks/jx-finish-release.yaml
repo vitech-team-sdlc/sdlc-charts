@@ -73,6 +73,10 @@ spec:
     - name: JX_PROMOTE
       default: "{{ .Values.jx.images.promote }}"
   stepTemplate:
+    envFrom:
+      - secretRef:
+          name: jx-boot-job-env-vars
+          optional: true
     env:
       - name: BUILD_ID
         value: $(params.BUILD_ID)
@@ -100,23 +104,33 @@ spec:
         value: $(params.REPO_OWNER)
       - name: REPO_URL
         value: $(params.REPO_URL)
+      - name: GIT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: tekton-git
+      - name: GIT_USER
+        valueFrom:
+          secretKeyRef:
+            key: username
+            name: tekton-git
   steps:
     - name: promote-changelog
       image: $(params.JX_CHANGELOG)
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
+        source .jx/variables.sh
 
         git config --global --add user.name ${GIT_AUTHOR_NAME:-jenkins-x-bot}
         git config --global --add user.email ${GIT_AUTHOR_EMAIL:-jenkins-x@googlegroups.com}
         git config --global credential.helper store
 
-        source .jx/variables.sh
-
         if [ -d "charts/$REPO_NAME" ]; then
-        sed -i -e "s/^version:.*/version: $VERSION/" ./charts/$REPO_NAME/Chart.yaml
-        sed -i -e "s/repository:.*/repository: $DOCKER_REGISTRY\/$DOCKER_REGISTRY_ORG\/$APP_NAME/" ./charts/$REPO_NAME/values.yaml
-        sed -i -e "s/tag:.*/tag: $VERSION/" ./charts/$REPO_NAME/values.yaml;
+        jx gitops yset -p version -v "$VERSION" -f ./charts/$REPO_NAME/Chart.yaml
+        jx gitops yset -p appVersion -v "$VERSION" -f ./charts/$REPO_NAME/Chart.yaml
+        jx gitops yset -p 'image.repository' -v $DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME -f ./charts/$REPO_NAME/values.yaml
+        jx gitops yset -p 'image.tag' -v "$VERSION" -f ./charts/$REPO_NAME/values.yaml;
         else echo no charts; fi
 
         git add * || true
@@ -124,7 +138,7 @@ spec:
         git tag -fa v$VERSION -m "Release version $VERSION"
         git push --force origin v$VERSION
 
-        jx changelog create -y --version v${VERSION}
+        jx changelog create --version v${VERSION}
     - name: promote-helm-release
       image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)

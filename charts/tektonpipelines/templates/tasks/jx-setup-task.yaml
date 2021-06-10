@@ -79,7 +79,13 @@ spec:
     - name: source_branch
       description: name of the source branch
   stepTemplate:
+    envFrom:
+      - secretRef:
+          name: jx-boot-job-env-vars
+          optional: true
     env:
+      - name: HOME
+        value: /tekton/home
       - name: BUILD_ID
         value: $(params.BUILD_ID)
       - name: JOB_NAME
@@ -193,6 +199,7 @@ spec:
       script: |
         #!/usr/bin/env sh
         jx gitops variables
+        jx gitops pr variables
     - name: jx-variables-results
       image: $(params.JX_CLI)
       script: |

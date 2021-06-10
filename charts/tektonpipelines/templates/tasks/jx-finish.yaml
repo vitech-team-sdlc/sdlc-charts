@@ -61,6 +61,10 @@ spec:
     - name: JX_PREVIEW
       default: "{{ .Values.jx.images.preview }}"
   stepTemplate:
+    envFrom:
+      - secretRef:
+          name: jx-boot-job-env-vars
+          optional: true
     env:
       - name: BUILD_ID
         value: $(params.BUILD_ID)
@@ -88,6 +92,16 @@ spec:
         value: $(params.REPO_OWNER)
       - name: REPO_URL
         value: $(params.REPO_URL)
+      - name: GIT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: tekton-git
+      - name: GIT_USER
+        valueFrom:
+          secretKeyRef:
+            key: username
+            name: tekton-git
   steps:
     - name: promote-jx-preview
       image: $(params.JX_PREVIEW)

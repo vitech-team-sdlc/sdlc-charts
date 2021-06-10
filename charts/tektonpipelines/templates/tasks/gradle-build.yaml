@@ -44,12 +44,15 @@ spec:
     - name: dind-socket
       emptyDir: { }
   steps:
+    - name: wait
+      image: $(params.IMAGE)
+      script: sleep 3
     - name: build
       image: $(params.IMAGE)
       workingDir: $(workspaces.source.path)
       resources:
         requests:
-          cpu: 400m
+          cpu: 600m
           memory: 512Mi
       command:
         - gradle
