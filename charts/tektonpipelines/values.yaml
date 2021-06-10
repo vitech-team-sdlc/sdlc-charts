@@ -6,7 +6,7 @@ jx:
     changelog: gcr.io/jenkinsxio/jx-changelog:0.0.43
     release:  gcr.io/jenkinsxio/jx-release-version:2.4.9
     promote:  ghcr.io/jenkins-x-plugins/jx-promote:0.0.269
-    registry: gcr.io/jenkinsxio/jx-registry:0.0.16
+    registry: gcr.io/jenkinsxio/jx-registry:0.0.12
 
 task:
   serviceAccount:
