@@ -3,6 +3,8 @@ apiVersion: monitoring.coreos.com/v1
 metadata:
   name: monitoring-tekton-pipeline-controller
   namespace: monitoring
+  labels:
+    release: "monitoring"
 spec:
   endpoints:
     - interval: 15s
