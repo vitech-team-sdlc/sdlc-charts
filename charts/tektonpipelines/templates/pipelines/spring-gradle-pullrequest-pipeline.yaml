@@ -58,6 +58,10 @@ spec:
       type: string
       description: If the score set between 0 and 10 the exit code from dependency-check will indicate if a vulnerability with a CVSS score equal to or higher was identified.
       default: "7"
+    - name: PREVIEW_ENABLED
+      type: string
+      description: on/off preview environment
+      default: "true"
   workspaces:
     - name: shared-data
       description: |
@@ -183,8 +187,11 @@ spec:
       taskRef:
         name: jx-finish-pr
       runAfter:
-        - "container-build"
+        - "container-check"
+        - "owasp-dependencies-check-task"
       params:
+        - name: PREVIEW_ENABLED
+          value: $(params.PREVIEW_ENABLED)
         - name: BUILD_ID
           value: $(params.BUILD_ID)
         - name: JOB_NAME
