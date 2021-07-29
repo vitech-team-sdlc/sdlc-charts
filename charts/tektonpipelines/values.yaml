@@ -113,6 +113,8 @@ reports:
     storage:
       size: 2Gi
 
+kaniko:
+  storage: 1Gi
 
 nginx:
   serverBlock: |-
