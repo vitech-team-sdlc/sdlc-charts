@@ -30,7 +30,7 @@ spec:
     - name: LINTER_IMAGE
       type: string
       description: image who scanning commits
-      default: "aevea/commitsar:0.15.0"
+      default: "aevea/commitsar:0.16.0"
     - name: JX_BOOT
       default: "{{ .Values.jx.images.boot }}"
     - name: RESULTS_REPORT_PATH
@@ -45,7 +45,7 @@ spec:
       image: $(params.LINTER_IMAGE)
       workingDir: $(workspaces.source.path)
       script: |
-        if commitsar > "$(params.RESULTS_REPORT_PATH)"; then
+        if commitsar $PULL_BASE_SHA...$PULL_PULL_SHA > "$(params.RESULTS_REPORT_PATH)"; then
           echo -n "true" > $(results.passed.path)
         else
           echo -n "false" > $(results.passed.path)
