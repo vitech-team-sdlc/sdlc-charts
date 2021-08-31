@@ -136,6 +136,7 @@ spec:
       taskRef:
         name: sonarqube-scanner
       runAfter:
+        - "build"
         - "container-build"
       params:
         - name: REPO_OWNER
