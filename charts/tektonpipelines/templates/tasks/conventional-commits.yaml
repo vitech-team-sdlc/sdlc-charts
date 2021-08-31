@@ -37,6 +37,10 @@ spec:
       default: ".conv-commits-report.json"
     - name: RESULTS_MARKDOWN_REPORT_PATH
       default: ".conv-commits-markdown.report"
+    - name: PULL_BASE_SHA
+      default: ""
+    - name: PULL_PULL_SHA
+      default: ""
   results:
     - name: passed
       description: is passed
@@ -44,6 +48,11 @@ spec:
     - name: conventional-commits-check
       image: $(params.LINTER_IMAGE)
       workingDir: $(workspaces.source.path)
+      env:
+        - name: PULL_BASE_SHA
+          value: "$(params.PULL_BASE_SHA)"
+        - name: PULL_PULL_SHA
+          value: "$(params.PULL_PULL_SHA)"
       script: |
         if commitsar $PULL_BASE_SHA...$PULL_PULL_SHA > "$(params.RESULTS_REPORT_PATH)"; then
           echo -n "true" > $(results.passed.path)

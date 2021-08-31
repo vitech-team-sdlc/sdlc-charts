@@ -126,6 +126,10 @@ spec:
           value: $(params.PULL_NUMBER)
         - name: FAIL
           value: "false"
+        - name: PULL_PULL_SHA
+          value: $(params.PULL_PULL_SHA)
+        - name: PULL_BASE_SHA
+          value: $(params.PULL_BASE_SHA)
     - name: container-build
       taskRef:
         name: kaniko
