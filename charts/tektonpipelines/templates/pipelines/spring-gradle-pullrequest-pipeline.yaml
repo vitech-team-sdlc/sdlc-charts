@@ -68,20 +68,9 @@ spec:
         This workspace will receive the cloned git repo and be passed
         to the next Task for the repo's README.md file to be read.
   tasks:
-    - name: fetch-repo
-      taskRef:
-        name: git-clone
-      workspaces:
-        - name: output
-          workspace: shared-data
-      params:
-        - name: url
-          value: $(params.REPO_URL)
     - name: jx-setup
       taskRef:
         name: jx-setup
-      runAfter:
-        - "fetch-repo"
       workspaces:
         - name: source
           workspace: shared-data
@@ -116,7 +105,7 @@ spec:
       taskRef:
         name: gradle-build
       runAfter:
-        - "jx-setup"
+        - "conventionalcommits"
       workspaces:
         - name: source
           workspace: shared-data
@@ -141,7 +130,7 @@ spec:
       taskRef:
         name: buildpacks
       runAfter:
-        - "jx-setup"
+        - "conventionalcommits"
       params:
         - name: BUILDER_IMAGE
           value: paketobuildpacks/builder:0.1.37-base

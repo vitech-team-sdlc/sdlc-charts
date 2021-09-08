@@ -56,20 +56,9 @@ spec:
         This workspace will receive the cloned git repo and be passed
         to the next Task for the repo's README.md file to be read.
   tasks:
-    - name: fetch-repo
-      taskRef:
-        name: git-clone
-      workspaces:
-        - name: output
-          workspace: shared-data
-      params:
-        - name: url
-          value: $(params.REPO_URL)
     - name: jx-setup
       taskRef:
         name: jx-setup
-      runAfter:
-        - "fetch-repo"
       workspaces:
         - name: source
           workspace: shared-data

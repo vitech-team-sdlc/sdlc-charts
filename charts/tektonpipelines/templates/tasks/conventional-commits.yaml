@@ -54,7 +54,7 @@ spec:
         - name: PULL_PULL_SHA
           value: "$(params.PULL_PULL_SHA)"
       script: |
-        if commitsar $PULL_BASE_SHA...$PULL_PULL_SHA > "$(params.RESULTS_REPORT_PATH)"; then
+        if commitsar > "$(params.RESULTS_REPORT_PATH)"; then
           echo -n "true" > $(results.passed.path)
         else
           echo -n "false" > $(results.passed.path)

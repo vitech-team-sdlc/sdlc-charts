@@ -121,25 +121,29 @@ spec:
             name: jx-boot-job-env-vars
             optional: true
       script: |
-        #!/usr/bin/env sh
+        #!/bin/sh
 
-        echo "Dir: $(pwd)"
+        rm -rf $(workspaces.source.path)
 
+        echo "git cloning url: $REPO_URL version $PULL_PULL_REF:$(echo $JOB_NAME | tr '[:lower:]' '[:upper:]')-$PULL_NUMBER@$PULL_PULL_SHA to dir:  $(workspaces.source.path)"
         git config --global --add user.name ${GIT_AUTHOR_NAME:-jenkins-x-bot}
         git config --global --add user.email ${GIT_AUTHOR_EMAIL:-jenkins-x@googlegroups.com}
         git config --global credential.helper store
 
-        git fetch
+        git clone $REPO_URL  $(workspaces.source.path)
+
+        ls -la
 
         if [[ -n "${PULL_NUMBER}" ]]; then
-          git checkout $PULL_PULL_SHA
-          echo checked out revision: $(params.PULL_PULL_SHA) to dir: $(workspaces.source.path)
+          git fetch origin $PULL_PULL_REF:$(echo $JOB_NAME | tr '[:lower:]' '[:upper:]')-$PULL_NUMBER
+          git checkout $(echo $JOB_NAME | tr '[:lower:]' '[:upper:]')-$PULL_NUMBER
+          git reset --hard $PULL_PULL_SHA
+          echo "checked out revision: $PULL_PULL_REF:$(echo $JOB_NAME | tr '[:lower:]' '[:upper:]')-$PULL_NUMBER@$PULL_PULL_SHA to dir:  $(workspaces.source.path)"
         else
-          git checkout $PULL_BASE_SHA
-          echo checked out revision: $(params.PULL_BASE_SHA) to dir: $(workspaces.source.path)
+          git reset --hard $PULL_BASE_SHA
+          echo "checked out revision: $PULL_BASE_REF@$PULL_BASE_SHA to dir:  $(workspaces.source.path)"
         fi
 
-        echo checked out revision: $(params.PULL_PULL_SHA) to dir: $(workspaces.source.path)
     - name: git-setup
       image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
@@ -174,24 +178,19 @@ spec:
       workingDir: $(workspaces.source.path)
       script: |
         if [[ "$(params.GIT_CHECKOUT_STRATEGY)" == "jx" ]]; then
-          jx gitops git merge variables
+          jx gitops git merge
         else
           git checkout $(cat $(results.source_branch.path))
         fi
     - name: next-version
-      image: gcr.io/jenkinsxio/builder-go
+      image: ghcr.io/jenkins-x/jx-release-version:2.4.13
       workingDir: $(workspaces.source.path)
       script: |
-        #!/usr/bin/env bash
+        #!/usr/bin/env sh
         if $(params.IS_RELEASE); then
-            if jx step next-version $(params.NEXT_VERSION_ARGS); then
-              echo "New version: $(cat VERSION)"
-            else
-              echo "Original next-version command faled using simple one."
-              jx step next-version --use-git-tag-only
-            fi
-          else
-            echo "Skipping version update [file]"
+           jx-release-version --tag > VERSION
+         else
+           echo "Skipping version update [file]"
         fi
     - name: jx-variables
       image: $(params.JX_BOOT)
