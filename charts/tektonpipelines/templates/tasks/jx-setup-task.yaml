@@ -84,6 +84,16 @@ spec:
           name: jx-boot-job-env-vars
           optional: true
     env:
+      - name: GIT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: tekton-git
+      - name: GIT_USER
+        valueFrom:
+          secretKeyRef:
+            key: username
+            name: tekton-git
       - name: HOME
         value: /tekton/home
       - name: BUILD_ID
@@ -116,10 +126,6 @@ spec:
     - name: git-configure
       image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
-      envFrom:
-        - secretRef:
-            name: jx-boot-job-env-vars
-            optional: true
       script: |
         #!/bin/sh
 
@@ -144,11 +150,6 @@ spec:
           echo "checked out revision: $PULL_BASE_REF@$PULL_BASE_SHA to dir:  $(workspaces.source.path)"
         fi
 
-    - name: git-setup
-      image: $(params.JX_BOOT)
-      workingDir: $(workspaces.source.path)
-      script: |
-        jx gitops git setup --namespace jx-git-operator
     - name: get-pr-info
       image: $(params.JX_BOOT)
       workingDir: $(workspaces.source.path)
