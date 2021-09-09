@@ -132,3 +132,16 @@ nginx:
   extraVolumeMounts:
     - name: pipeline-reports-dir
       mountPath: /pipeline-reports
+
+
+gradle:
+  resources:
+    requests:
+      cpu: 400m
+      memory: 512Mi
+  sidecar:
+    resources:
+      requests:
+        memory: 1Gi
+      limits:
+        memory: 2Gi

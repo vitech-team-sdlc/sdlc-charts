@@ -31,6 +31,8 @@ spec:
   sidecars:
     - image: docker:19.03.15-dind
       name: server
+      resources:
+      {{- toYaml .Values.gradle.sidecar.resources | nindent 8 }}
       securityContext:
         privileged: true
       volumeMounts:
@@ -51,9 +53,7 @@ spec:
       image: $(params.IMAGE)
       workingDir: $(workspaces.source.path)
       resources:
-        requests:
-          cpu: 600m
-          memory: 512Mi
+      {{- toYaml .Values.gradle.resources | nindent 8 }}
       command:
         - gradle
       args:
