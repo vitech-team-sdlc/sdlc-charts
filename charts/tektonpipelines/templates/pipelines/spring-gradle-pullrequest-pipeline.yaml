@@ -133,7 +133,7 @@ spec:
         - "conventionalcommits"
       params:
         - name: BUILDER_IMAGE
-          value: paketobuildpacks/builder:0.1.37-base
+          value: paketobuildpacks/builder:base
         - name: IMAGE
           value: $(tasks.jx-setup.results.image)
       workspaces:
