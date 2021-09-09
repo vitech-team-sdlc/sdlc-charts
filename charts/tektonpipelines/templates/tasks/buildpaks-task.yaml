@@ -147,8 +147,6 @@ spec:
         - name: ARTIFACT_REGISTRY_URL
           value: "http://nexus/repository/maven-group/"
       volumeMounts:
-        - mountPath: /var/run/
-          name: dind-socket
         - name: layers-dir
           mountPath: /layers
         - name: $(params.CACHE)
