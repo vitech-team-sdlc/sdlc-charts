@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: tekton-dashboard
   {{- include "tekton-dashboard.labels"  . | nindent 4 }}
   annotations:
-    {{- if empty .Values.ingress.defaultAuthUrl }}
+    {{- if .Values.ingress.defaultAuthUrl }}
     nginx.ingress.kubernetes.io/auth-url: "{{ .Values.ingress.defaultAuthUrl }}/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "{{ .Values.ingress.defaultAuthUrl }}/oauth2/sign_in?rd=http://$host/$request_uri"
   {{- else -}}
