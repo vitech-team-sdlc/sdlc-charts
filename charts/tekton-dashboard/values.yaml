@@ -1,0 +1,21 @@
+ingress:
+  enabled: true
+  defaultHost: "default.host"
+  defaultAuthUrl: "http://auth.default.host"
+  hosts:
+    - host: ""
+      paths:
+        - pathType: ImplementationSpecific
+          serviceName: tekton-dashboard
+          servicePortNumber: 9097
+  annotations: { }
+  #    nginx.ingress.kubernetes.io/auth-url: "http://auth.replace.me/oauth2/auth"
+  #    nginx.ingress.kubernetes.io/auth-signin: "http://auth.replace.me/oauth2/sign_in?rd=http://$host/$request_uri"
+  tls: [ ]
+#    - secretName: "secret"
+#      hosts:
+#        - "test.clustet.local"
+
+
+service:
+  port: 9097
