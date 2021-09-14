@@ -83,6 +83,17 @@ entries:
     urls:
     - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
+  tekton-dashboard:
+  - apiVersion: v2
+    appVersion: 0.20.0
+    created: "2021-09-14T09:11:57.531917598Z"
+    description: A Helm chart for Tekton-Dashboard with ingress and OAuth authorization
+    digest: 5a18847c944654a703f6cfb7b580abb77f0274228dbe21d0fcf9d1773a404e93
+    name: tekton-dashboard
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/tekton-dashboard-0.1.0/tekton-dashboard-0.1.0.tgz
+    version: 0.1.0
   tektonpipelines:
   - apiVersion: v2
     appVersion: 3.1.353
