@@ -1,7 +1,7 @@
 jx:
   images:
     boot: ghcr.io/jenkins-x/jx-boot:3.2.196
-    cli: ghcr.io/jenkins-x/jx-cli:3.2.188
+    cli: ghcr.io/jenkins-x/jx-cli:3.1.353
     preview: ghcr.io/jenkins-x-plugins/jx-preview:0.0.192
     changelog: ghcr.io/jenkins-x/jx-changelog:0.0.47
     release:  ghcr.io/jenkins-x/jx-release-version:2.4.13
