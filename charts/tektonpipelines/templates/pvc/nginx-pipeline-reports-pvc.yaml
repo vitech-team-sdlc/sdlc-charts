@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - "ReadWriteMany"
-  storageClassName: nfs
+  storageClassName: {{ .Values.storageClass }}
   resources:
     requests:
       storage: {{ .Values.reports.pvc.storage.size }}

@@ -8,6 +8,8 @@ jx:
     promote:  ghcr.io/jenkins-x-plugins/jx-promote:0.0.278
     registry: ghcr.io/jenkins-x/jx-registry:0.1.1
 
+storageClass: nfs
+
 task:
   serviceAccount:
     name: "tekton-build-bot"
