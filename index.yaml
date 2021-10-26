@@ -35,6 +35,16 @@ entries:
   monitoring:
   - apiVersion: v2
     appVersion: 0.0.0
+    created: "2021-10-26T07:12:27.691221979Z"
+    description: additional monitoring staff for kubeprometheus
+    digest: 9f4437622b280c0d0a0324ba310860512729f155ba6dcc696a357db20764ce49
+    name: monitoring
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.4.0/monitoring-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 0.0.0
     created: "2021-07-13T10:20:14.623901651Z"
     description: additional monitoring staff for kubeprometheus
     digest: ebfe1ddc779542bb2fe18d1c2c2737942a2a3a573640885f193e0f7f5c2a11a0
@@ -76,6 +86,15 @@ entries:
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2021-10-26T07:12:27.855998926Z"
+    digest: 7301e718fe8997fadc10ffc0375096c9c586601737da2338fb01762acc324466
+    name: secret
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.3.0/secret-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-01-06T11:53:43.577703+02:00"
     digest: 9913f817609c2021b1db75f611c63d541c3696c9a67f3b8f726934523b6fe3f2
     name: secret
@@ -105,6 +124,16 @@ entries:
     - https://github.com/vitech-team/sdlc-charts/releases/download/tekton-dashboard-0.1.0/tekton-dashboard-0.1.0.tgz
     version: 0.1.0
   tektonpipelines:
+  - apiVersion: v2
+    appVersion: 3.1.353
+    created: "2021-10-26T07:12:27.991643309Z"
+    description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.353
+    digest: 0b6d7a918897e79dd2dde8ef7ba9f6cfc223131b2f6502516e4c4dc8b079141f
+    name: tektonpipelines
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.14.0/tektonpipelines-0.14.0.tgz
+    version: 0.14.0
   - apiVersion: v2
     appVersion: 3.1.353
     created: "2021-10-20T13:34:43.804499721Z"
