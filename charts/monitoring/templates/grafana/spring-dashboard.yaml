@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: spring-dashboard-{{ .Release.Name }}
   labels:
-  {{- toYaml .Values.grafana_notifier_label | nindent 4 }}
+  {{- toYaml .Values.grafana_dashboard_label | nindent 4 }}
 data:
   spring.json: |-
     {
