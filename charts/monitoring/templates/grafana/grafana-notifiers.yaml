@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-slack-notifier
+  labels:
+    {{- toYaml .Values.grafana_notifier_label | nindent 4 }}
+stringData:
+  notifier.yml: |
+    notifiers:
+      - name: slack
+        type: slack
+        uid: notifier1
+        is_default: true
+        send_reminder: true
+        frequency: 1h
+        disable_resolve_message: false
+        settings:
+          recipient: '#notifications'
+          uploadImage: true
+        secure_settings:
+          token: 'xoxb-'

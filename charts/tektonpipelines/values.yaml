@@ -1,104 +1,4 @@
-jx:
-  images:
-    boot: ghcr.io/jenkins-x/jx-boot:3.2.196
-    cli: ghcr.io/jenkins-x/jx-cli:3.1.353
-    preview: ghcr.io/jenkins-x-plugins/jx-preview:0.0.192
-    changelog: ghcr.io/jenkins-x/jx-changelog:0.0.47
-    release:  ghcr.io/jenkins-x/jx-release-version:2.4.13
-    promote:  ghcr.io/jenkins-x-plugins/jx-promote:0.0.278
-    registry: ghcr.io/jenkins-x/jx-registry:0.1.1
-
 storageClass: nfs
-
-task:
-  serviceAccount:
-    name: "tekton-build-bot"
-    errMSg: "service account name need to be provided"
-  images:
-    gradle: "gradle:6.3.0-jdk11"
-    node: "node:16-slim"
-    gitleaks: "zricethezav/gitleaks:v7.1.0"
-  release:
-    slackChannel: ""
-    message: |
-      {
-        "channel": "${SLACK_CHANEL}",
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": ":tada: Application \`${APP_NAME}\` of version \`${VERSION}\` has been packed. \n Application will be *autopromoted* on *staging* environment _soon_, see created <${PR_URL}|pull request>."
-            }
-          },
-          {
-            "type": "actions",
-            "elements": [
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": ":nyancat: Promote PR",
-                  "emoji": true
-                },
-                "value": "click_me_123",
-                "url": "${PR_URL}",
-                "action_id": "pr"
-              },
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": ":octocat: Repository Tag",
-                  "emoji": true
-                },
-                "value": "click_me_123",
-                "url": "${REPO_TAG_URL}",
-                "action_id": "repo"
-              },
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": ":potato: Change Log",
-                  "emoji": true
-                },
-                "value": "click_me_123",
-                "url": "${CHANGE_LOG_URL}",
-                "action_id": "changelog"
-              },
-              {
-                "type": "button",
-                "text": {
-                  "type": "plain_text",
-                  "text": ":whale: Docker Image",
-                  "emoji": true
-                },
-                "value": "click_me_123",
-                "url": "${DOCKER_IMAGE_URL}",
-                "action_id": "dockerImage"
-              }
-            ]
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "<https://vitech-team.github.io/SDLC|VITech SDLC Team>"
-              },
-              {
-                "type": "image",
-                "image_url": "https://static2.clutch.co/s3fs-public/logos/cf05ec722c2e35d3158c03924a09dd2e.png",
-                "alt_text": "VItech SDLC"
-              }
-            ]
-          }
-        ]
-      }
 
 jxRequirements:
   cluster:
@@ -107,34 +7,8 @@ jxRequirements:
     project:
     clusterName:
 
-reports:
-  ingress:
-    hostname:
-  pvc:
-    name: pipeline-reports
-    storage:
-      size: 2Gi
-
 kaniko:
   storage: 1Gi
-
-nginx:
-  serverBlock: |-
-    server {
-      listen 8080;
-      location / {
-        root /pipeline-reports;
-        autoindex on;
-      }
-    }
-  extraVolumes:
-    - name: pipeline-reports-dir
-      persistentVolumeClaim:
-        claimName: pipeline-reports
-  extraVolumeMounts:
-    - name: pipeline-reports-dir
-      mountPath: /pipeline-reports
-
 
 gradle:
   resources:

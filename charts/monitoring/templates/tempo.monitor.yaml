@@ -1,0 +1,17 @@
+kind: PodMonitor
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: tempo
+  labels:
+    release: "monitoring"
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      "app.kubernetes.io/name": tempo
+  podMetricsEndpoints:
+    - port: prom-metrics
+      path: /metrics
+      interval: 1m
+
