@@ -35,6 +35,16 @@ entries:
   monitoring:
   - apiVersion: v2
     appVersion: 0.0.0
+    created: "2021-10-26T07:50:48.499727938Z"
+    description: additional monitoring staff for kubeprometheus
+    digest: ce525f6187532810116c537a8dc77917f3bee1cea3a49f262293c75dd96d45b0
+    name: monitoring
+    type: application
+    urls:
+    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.4.1/monitoring-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: 0.0.0
     created: "2021-10-26T07:12:27.691221979Z"
     description: additional monitoring staff for kubeprometheus
     digest: 9f4437622b280c0d0a0324ba310860512729f155ba6dcc696a357db20764ce49
