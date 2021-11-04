@@ -13,7 +13,7 @@ entries:
     name: keycloak
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
     version: 0.1.0
   largetests:
   - apiVersion: v2
@@ -30,7 +30,7 @@ entries:
     name: largetests
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/largetests-0.1.0/largetests-0.1.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/largetests-0.1.0/largetests-0.1.0.tgz
     version: 0.1.0
   monitoring:
   - apiVersion: v2
@@ -41,7 +41,7 @@ entries:
     name: monitoring
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.2.0/monitoring-0.2.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/monitoring-0.2.0/monitoring-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.0.0
@@ -51,7 +51,7 @@ entries:
     name: monitoring
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/monitoring-0.1.0/monitoring-0.1.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/monitoring-0.1.0/monitoring-0.1.0.tgz
     version: 0.1.0
   secret:
   - apiVersion: v2
@@ -61,7 +61,7 @@ entries:
     name: secret
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
   tektonpipelines:
   - apiVersion: v2
@@ -72,7 +72,7 @@ entries:
     name: tektonpipelines
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.6.1/tektonpipelines-0.6.1.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.6.1/tektonpipelines-0.6.1.tgz
     version: 0.6.1
   - apiVersion: v2
     appVersion: 3.1.43
@@ -82,7 +82,7 @@ entries:
     name: tektonpipelines
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.5.0/tektonpipelines-0.5.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.5.0/tektonpipelines-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v2
     appVersion: 3.1.43
@@ -92,7 +92,7 @@ entries:
     name: tektonpipelines
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.3.0/tektonpipelines-0.3.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.3.0/tektonpipelines-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v2
     appVersion: 3.1.43
@@ -102,7 +102,7 @@ entries:
     name: tektonpipelines
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.2.0/tektonpipelines-0.2.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.2.0/tektonpipelines-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
     appVersion: 3.1.43
@@ -112,6 +112,6 @@ entries:
     name: tektonpipelines
     type: application
     urls:
-    - https://github.com/vitech-team/sdlc-charts/releases/download/tektonpipelines-0.1.0/tektonpipelines-0.1.0.tgz
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.1.0/tektonpipelines-0.1.0.tgz
     version: 0.1.0
 generated: "2021-01-06T11:53:42.403974+02:00"
