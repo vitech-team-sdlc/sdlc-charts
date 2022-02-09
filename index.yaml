@@ -106,6 +106,15 @@ entries:
   secret:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2022-02-09T13:22:01.735790476Z"
+    digest: 0e24a8186329ac1b4a510b411ad68bd882afbaddf3ec07b8f29bf19c37fbae11
+    name: secret
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/secret-0.5.1/secret-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-11-22T16:35:37.173507731Z"
     digest: b54549175e33bb95c2b826a9c0646dc7b957d83ccf5fe6bc9acd53f092b33000
     name: secret
