@@ -2,6 +2,20 @@ apiVersion: v1
 entries:
   keycloak:
   - apiVersion: v2
+    appVersion: 17.0.2
+    created: "2022-03-14T13:56:02.986803851Z"
+    dependencies:
+    - name: keycloak
+      repository: https://codecentric.github.io/helm-charts
+      version: 17.0.2
+    description: fix chart for jx
+    digest: 33ad7592364a41611d3edd073116fc9d3ebe6c9b6bd5f0d2059085d6dd0d0c13
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/keycloak-0.2.0/keycloak-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 9.5.0
     created: "2021-01-06T11:53:42.731188+02:00"
     dependencies:
