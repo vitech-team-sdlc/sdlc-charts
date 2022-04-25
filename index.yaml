@@ -2,6 +2,20 @@ apiVersion: v1
 entries:
   keycloak:
   - apiVersion: v2
+    appVersion: 9.5.0
+    created: "2022-04-25T12:29:56.767468402Z"
+    dependencies:
+    - name: keycloak
+      repository: https://codecentric.github.io/helm-charts
+      version: 9.5.0
+    description: fix chart for jx
+    digest: 249c9d1922c1e74c10dc5572fd7345f98121ec2518562662797032d90a469ddb
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/keycloak-0.2.1/keycloak-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 17.0.2
     created: "2022-03-14T13:56:02.986803851Z"
     dependencies:
@@ -164,6 +178,16 @@ entries:
     - https://github.com/vitech-team/sdlc-charts/releases/download/secret-0.1.0/secret-0.1.0.tgz
     version: 0.1.0
   tekton-dashboard:
+  - apiVersion: v2
+    appVersion: 0.25.0
+    created: "2022-04-25T12:29:56.970125373Z"
+    description: A Helm chart for Tekton-Dashboard with ingress and OAuth authorization
+    digest: 4751cd8af3a8927d79acc386c4047b08b82b697c9b142e8e42ad6f72d4af38ab
+    name: tekton-dashboard
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tekton-dashboard-0.2.0/tekton-dashboard-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 0.20.0
     created: "2021-09-14T10:31:49.886664993Z"
