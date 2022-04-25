@@ -2,7 +2,7 @@ apiVersion: v2
 name: keycloak
 description:  fix chart for jx
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: 9.5.0
 dependencies:
   - name: keycloak
