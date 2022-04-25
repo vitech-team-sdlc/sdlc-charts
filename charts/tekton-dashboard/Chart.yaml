@@ -2,5 +2,5 @@ apiVersion: v2
 name: tekton-dashboard
 description: A Helm chart for Tekton-Dashboard with ingress and OAuth authorization
 type: application
-version: 0.1.1
-appVersion: "0.20.0"
+version: 0.2.0
+appVersion: "0.25.0"
