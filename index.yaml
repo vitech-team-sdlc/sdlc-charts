@@ -180,6 +180,16 @@ entries:
   tekton-dashboard:
   - apiVersion: v2
     appVersion: 0.25.0
+    created: "2022-07-29T10:09:51.360321391Z"
+    description: A Helm chart for Tekton-Dashboard with ingress and OAuth authorization
+    digest: 84ad6252d937a13858f3ce9a201bedc4f026186a90f5f0a9e9bbbfa155c49009
+    name: tekton-dashboard
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tekton-dashboard-0.2.2/tekton-dashboard-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.25.0
     created: "2022-04-25T12:29:56.970125373Z"
     description: A Helm chart for Tekton-Dashboard with ingress and OAuth authorization
     digest: 4751cd8af3a8927d79acc386c4047b08b82b697c9b142e8e42ad6f72d4af38ab
@@ -209,6 +219,16 @@ entries:
     - https://github.com/vitech-team/sdlc-charts/releases/download/tekton-dashboard-0.1.0/tekton-dashboard-0.1.0.tgz
     version: 0.1.0
   tektonpipelines:
+  - apiVersion: v2
+    appVersion: 3.1.353
+    created: "2022-07-29T10:09:51.620113524Z"
+    description: Tekton tasks and pipelines cahrt for Jenkins X (not only :)) 3.1.353
+    digest: fba96c636a521cd9f6d3424c0b8137c7cd78f0f053cd3aae46e55d53a0d53108
+    name: tektonpipelines
+    type: application
+    urls:
+    - https://github.com/vitech-team-sdlc/sdlc-charts/releases/download/tektonpipelines-0.14.2/tektonpipelines-0.14.2.tgz
+    version: 0.14.2
   - apiVersion: v2
     appVersion: 3.1.353
     created: "2022-07-28T12:24:45.695545093Z"
